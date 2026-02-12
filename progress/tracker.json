@@ -1,0 +1,44 @@
+{
+  "start_date": "2026-02-12",
+  "interview_date": "2026-02-17",
+  "sql_exercises": {
+    "completed": 0,
+    "total": 30,
+    "by_difficulty": {
+      "easy": {"completed": 0, "total": 10},
+      "medium": {"completed": 0, "total": 15},
+      "hard": {"completed": 0, "total": 5}
+    },
+    "by_topic": {
+      "joins": 0,
+      "window_functions": 0,
+      "ctes": 0,
+      "subqueries": 0,
+      "aggregations": 0
+    }
+  },
+  "python_exercises": {
+    "completed": 0,
+    "total": 25,
+    "by_category": {
+      "pandas": {"completed": 0, "total": 10},
+      "data_structures": {"completed": 0, "total": 8},
+      "real_world": {"completed": 0, "total": 7}
+    }
+  },
+  "flashcards": {
+    "total_reviews": 0,
+    "cards_mastered": 0,
+    "average_confidence": 0,
+    "by_category": {
+      "Data Engineering Concepts": 0,
+      "SQL Concepts": 0,
+      "Python/Pandas": 0,
+      "AWS Services": 0,
+      "System Design": 0
+    }
+  },
+  "mock_interviews": [],
+  "time_spent_minutes": 0,
+  "daily_logs": []
+}
