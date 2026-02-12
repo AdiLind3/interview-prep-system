@@ -1,14 +1,14 @@
 [
   {
-    "customer_id": 4,
-    "name": "Diana Prince",
-    "email": "diana@email.com",
-    "order_count": 3
-  },
-  {
     "customer_id": 1,
     "name": "Alice Johnson",
     "email": "alice@email.com",
+    "order_count": 3
+  },
+  {
+    "customer_id": 4,
+    "name": "Diana Prince",
+    "email": "diana@email.com",
     "order_count": 3
   },
   {
