@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Progress - Interview Prep{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">📊 Progress Dashboard</h1>
+        {% if stats.days_until > 0 %}
+            <p class="text-lg text-gray-600">Interview in <span class="font-bold text-blue-600">{{ stats.days_until }} days</span></p>
+        {% elif stats.days_until == 0 %}
+            <p class="text-lg font-bold text-green-600">Interview is TODAY! 🚀</p>
+        {% endif %}
+    </div>
+
+    <!-- Overall progress -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Overall Progress</h2>
+        <div class="text-center mb-4">
+            <div class="text-5xl font-bold text-blue-600">{{ "%.1f"|format(stats.overall_progress) }}%</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ stats.overall_progress }}%"></div>
+        </div>
+    </div>
+
+    <!-- SQL Exercises -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">📝 SQL Exercises</h2>
+        <div class="mb-4">
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Progress</span>
+                <span>{{ stats.sql.completed }} / {{ stats.sql.total }}</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ (stats.sql.completed / stats.sql.total * 100) if stats.sql.total > 0 else 0 }}%"></div>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            {% for difficulty, data in stats.sql.by_difficulty.items() %}
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-3">
+                    {% if (data.completed / data.total * 100) == 100 %}
+                        <span class="text-green-600">✅</span>
+                    {% elif (data.completed / data.total * 100) >= 50 %}
+                        <span class="text-yellow-600">⚠️</span>
+                    {% else %}
+                        <span class="text-red-600">❌</span>
+                    {% endif %}
+                    <span class="font-semibold capitalize">{{ difficulty }}</span>
+                </div>
+                <span class="text-gray-600">{{ data.completed }} / {{ data.total }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Python Exercises -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🐍 Python Exercises</h2>
+        <div class="mb-4">
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Progress</span>
+                <span>{{ stats.python.completed }} / {{ stats.python.total }}</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ (stats.python.completed / stats.python.total * 100) if stats.python.total > 0 else 0 }}%"></div>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            {% for category, data in stats.python.by_category.items() %}
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-3">
+                    {% if (data.completed / data.total * 100) == 100 %}
+                        <span class="text-green-600">✅</span>
+                    {% elif (data.completed / data.total * 100) >= 50 %}
+                        <span class="text-yellow-600">⚠️</span>
+                    {% else %}
+                        <span class="text-red-600">❌</span>
+                    {% endif %}
+                    <span class="font-semibold capitalize">{{ category }}</span>
+                </div>
+                <span class="text-gray-600">{{ data.completed }} / {{ data.total }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Flashcards -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🎴 Flashcards</h2>
+
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                <div class="text-2xl font-bold text-purple-600">{{ stats.flashcards.total_reviews }}</div>
+                <div class="text-sm text-gray-600 mt-1">Total Reviews</div>
+            </div>
+            <div class="text-center p-4 bg-green-50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600">{{ stats.flashcards.cards_mastered }}</div>
+                <div class="text-sm text-gray-600 mt-1">Mastered</div>
+            </div>
+            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <div class="text-2xl font-bold text-blue-600">{{ "%.1f"|format(stats.flashcards.average_confidence) }}</div>
+                <div class="text-sm text-gray-600 mt-1">Avg Confidence</div>
+            </div>
+        </div>
+
+        <div class="text-sm text-gray-600 mb-2">By Category:</div>
+        <div class="space-y-2">
+            {% for category, count in stats.flashcards.by_category.items() %}
+            <div class="flex justify-between p-2 bg-gray-50 rounded">
+                <span>{{ category }}</span>
+                <span class="font-semibold">{{ count }} reviews</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Time & Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="card">
+            <h3 class="font-bold text-gray-800 mb-2">⏱️ Time Investment</h3>
+            <div class="text-3xl font-bold text-blue-600">{{ "%.1f"|format(stats.time_hours) }}h</div>
+            <div class="text-gray-600 text-sm mt-1">Total study time</div>
+        </div>
+
+        <div class="card">
+            <h3 class="font-bold text-gray-800 mb-2">🎤 Mock Interviews</h3>
+            <div class="text-3xl font-bold text-green-600">{{ stats.mock_interviews }}</div>
+            <div class="text-gray-600 text-sm mt-1">Completed</div>
+        </div>
+    </div>
+
+    <!-- Motivational message -->
+    <div class="card bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200">
+        <div class="text-center">
+            <div class="text-4xl mb-3">💪</div>
+            <h3 class="text-lg font-bold text-gray-800 mb-2">Keep Up the Great Work!</h3>
+            <p class="text-gray-600 text-sm">Consistent progress leads to success. You're doing amazing!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ topic }} Cheat Sheet{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <a href="/" class="text-blue-600 hover:text-blue-800">← Back to Home</a>
+        <h1 class="text-3xl font-bold text-gray-800 mt-2">{{ topic }} Cheat Sheet</h1>
+    </div>
+
+    <div class="card prose prose-sm max-w-none" id="cheatsheet-content"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const content = document.getElementById('cheatsheet-content');
+    const markdownText = `{{ content | safe }}`;
+    if (typeof marked !== 'undefined') {
+        content.innerHTML = marked.parse(markdownText);
+
+        // Syntax highlighting
+        if (typeof hljs !== 'undefined') {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        }
+    }
+});
+</script>
+{% endblock %}
