@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Afghanistan",
+    "population": 25500100,
+    "area": 652230
+  },
+  {
+    "name": "Algeria",
+    "population": 37100000,
+    "area": 2381741
+  },
+  {
+    "name": "Australia",
+    "population": 23545500,
+    "area": 7741220
+  },
+  {
+    "name": "Brazil",
+    "population": 205000000,
+    "area": 8515767
+  },
+  {
+    "name": "China",
+    "population": 1365000000,
+    "area": 9596961
+  },
+  {
+    "name": "India",
+    "population": 1246000000,
+    "area": 3287263
+  }
+]

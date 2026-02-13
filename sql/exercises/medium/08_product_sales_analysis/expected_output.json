@@ -1,0 +1,20 @@
+[
+  {
+    "product_id": 100,
+    "first_year": 2008,
+    "quantity": 10,
+    "price": 5000
+  },
+  {
+    "product_id": 200,
+    "first_year": 2011,
+    "quantity": 15,
+    "price": 9000
+  },
+  {
+    "product_id": 300,
+    "first_year": 2012,
+    "quantity": 8,
+    "price": 7000
+  }
+]

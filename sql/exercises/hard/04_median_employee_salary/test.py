@@ -1,0 +1,60 @@
+"""Test for Median Employee Salary exercise."""
+import sys
+import os
+import json
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent))
+from utils.database import SQLiteHelper
+
+
+def test_solution():
+    """Test the median employee salary solution."""
+    exercise_dir = Path(__file__).parent
+
+    db = SQLiteHelper()
+    db.connect()
+
+    db.execute_file(str(exercise_dir / "schema.sql"))
+    db.execute_file(str(exercise_dir / "sample_data.sql"))
+
+    with open(exercise_dir / "expected_output.json", "r", encoding="utf-8") as f:
+        expected = json.load(f)
+
+    solution_file = exercise_dir / "template.sql"
+    if not solution_file.exists() or os.path.getsize(solution_file) < 50:
+        print("Solution file is empty or too short. Please write your solution in template.sql")
+        return False
+
+    with open(solution_file, "r", encoding="utf-8") as f:
+        solution_query = f.read()
+
+    try:
+        actual = db.execute_query(solution_query)
+    except Exception as e:
+        print(f"Query execution failed: {e}")
+        return False
+
+    if len(actual) != len(expected):
+        print(f"Wrong number of rows. Expected {len(expected)}, got {len(actual)}")
+        print(f"\nExpected:\n{expected}")
+        print(f"\nActual:\n{actual}")
+        return False
+
+    expected_set = set(tuple(sorted(d.items())) for d in expected)
+    actual_set = set(tuple(sorted(d.items())) for d in actual)
+    if expected_set != actual_set:
+        print("Results do not match expected output")
+        print(f"\nExpected:\n{expected}")
+        print(f"\nActual:\n{actual}")
+        return False
+
+    print("All tests passed!")
+    print(f"Correct! Found {len(actual)} median salary employees across companies.")
+    db.close()
+    return True
+
+
+if __name__ == "__main__":
+    success = test_solution()
+    sys.exit(0 if success else 1)

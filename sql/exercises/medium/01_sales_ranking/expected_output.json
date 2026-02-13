@@ -1,0 +1,51 @@
+[
+  {
+    "employee_id": 7,
+    "name": "David Wilson",
+    "department": "Engineering",
+    "total_sales": 88000,
+    "rank_in_dept": 1
+  },
+  {
+    "employee_id": 6,
+    "name": "Emily Davis",
+    "department": "Engineering",
+    "total_sales": 82000,
+    "rank_in_dept": 2
+  },
+  {
+    "employee_id": 4,
+    "name": "Sarah Williams",
+    "department": "Marketing",
+    "total_sales": 114000,
+    "rank_in_dept": 1
+  },
+  {
+    "employee_id": 5,
+    "name": "Tom Brown",
+    "department": "Marketing",
+    "total_sales": 97000,
+    "rank_in_dept": 2
+  },
+  {
+    "employee_id": 1,
+    "name": "John Doe",
+    "department": "Sales",
+    "total_sales": 165000,
+    "rank_in_dept": 1
+  },
+  {
+    "employee_id": 2,
+    "name": "Jane Smith",
+    "department": "Sales",
+    "total_sales": 145000,
+    "rank_in_dept": 2
+  },
+  {
+    "employee_id": 3,
+    "name": "Mike Johnson",
+    "department": "Sales",
+    "total_sales": 127000,
+    "rank_in_dept": 3
+  }
+]

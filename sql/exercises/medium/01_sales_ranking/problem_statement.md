@@ -39,6 +39,9 @@ You are analyzing employee sales performance across different departments. Write
 |-------------|------|------------|-------------|--------------|------------------|--------|
 | ... | ... | ... | ... | ... | ... | ... |
 
+## LeetCode Reference
+Similar to: [Rank Scores](https://leetcode.com/problems/rank-scores/) - LeetCode #178 (uses similar window function concepts)
+
 ## Hints
 
 <details>

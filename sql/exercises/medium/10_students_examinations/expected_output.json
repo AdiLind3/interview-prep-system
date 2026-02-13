@@ -1,0 +1,14 @@
+[
+  {"student_id": 1, "student_name": "Alice", "subject_name": "Math", "attended_exams": 3},
+  {"student_id": 1, "student_name": "Alice", "subject_name": "Physics", "attended_exams": 2},
+  {"student_id": 1, "student_name": "Alice", "subject_name": "Programming", "attended_exams": 1},
+  {"student_id": 2, "student_name": "Bob", "subject_name": "Math", "attended_exams": 1},
+  {"student_id": 2, "student_name": "Bob", "subject_name": "Physics", "attended_exams": 0},
+  {"student_id": 2, "student_name": "Bob", "subject_name": "Programming", "attended_exams": 1},
+  {"student_id": 6, "student_name": "Alex", "subject_name": "Math", "attended_exams": 0},
+  {"student_id": 6, "student_name": "Alex", "subject_name": "Physics", "attended_exams": 0},
+  {"student_id": 6, "student_name": "Alex", "subject_name": "Programming", "attended_exams": 0},
+  {"student_id": 13, "student_name": "John", "subject_name": "Math", "attended_exams": 1},
+  {"student_id": 13, "student_name": "John", "subject_name": "Physics", "attended_exams": 1},
+  {"student_id": 13, "student_name": "John", "subject_name": "Programming", "attended_exams": 1}
+]

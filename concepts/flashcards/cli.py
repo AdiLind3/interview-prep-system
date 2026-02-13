@@ -210,13 +210,13 @@ class FlashcardCLI:
         """Display main menu."""
         console.clear()
         console.print(Panel.fit(
-            "[bold cyan]📚 Interview Prep Flashcards[/bold cyan]\n"
+            "[bold cyan]Interview Prep Flashcards[/bold cyan]\n"
             "[dim]Spaced Repetition Learning System[/dim]",
             border_style="cyan"
         ))
 
         stats = self.manager.get_stats()
-        console.print(f"\n📊 [bold]Statistics:[/bold]")
+        console.print(f"\n[bold]Statistics:[/bold]")
         console.print(f"   Total Cards: {stats['total']}")
         console.print(f"   Reviewed: {stats['reviewed']}")
         console.print(f"   Mastered (confidence ≥4): {stats['mastered']}")
@@ -267,7 +267,7 @@ class FlashcardCLI:
             console.print("\n" + "=" * 60)
             console.print(Panel(
                 Markdown(card['answer']),
-                title="✅ Answer",
+                title="Answer",
                 border_style="green"
             ))
 
@@ -294,7 +294,7 @@ class FlashcardCLI:
 
             if quality >= 3:
                 correct_count += 1
-                console.print("[green]✅ Good job![/green]")
+                console.print("[green]Good job![/green]")
             else:
                 console.print("[yellow]📝 We'll review this again soon.[/yellow]")
 
@@ -365,7 +365,7 @@ class FlashcardCLI:
                 # Stats already shown in main menu
                 Prompt.ask("\nPress Enter to continue")
             elif choice == "5":
-                console.print("\n[cyan]Happy studying! 📚[/cyan]")
+                console.print("\n[cyan]Happy studying![/cyan]")
                 break
 
 

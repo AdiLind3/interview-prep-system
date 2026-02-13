@@ -40,6 +40,9 @@ You are given two tables: `customers` and `orders`. Write a query to return all 
 | 2 | Bob Smith | bob@email.com | 2 |
 | ... | ... | ... | ... |
 
+## LeetCode Reference
+Similar to: [Customer Who Visited but Did Not Make Any Transactions](https://leetcode.com/problems/customer-who-visited-but-did-not-make-any-transactions/) - LeetCode #1581
+
 ## Hints
 
 <details>

@@ -1,0 +1,14 @@
+[
+  {
+    "day": "2024-10-01",
+    "cancellation_rate": 0.33
+  },
+  {
+    "day": "2024-10-02",
+    "cancellation_rate": 0.0
+  },
+  {
+    "day": "2024-10-03",
+    "cancellation_rate": 0.5
+  }
+]

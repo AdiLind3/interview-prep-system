@@ -1,0 +1,27 @@
+[
+  {
+    "department": "IT",
+    "employee": "Jim",
+    "salary": 90000
+  },
+  {
+    "department": "IT",
+    "employee": "Max",
+    "salary": 90000
+  },
+  {
+    "department": "Marketing",
+    "employee": "Will",
+    "salary": 70000
+  },
+  {
+    "department": "Marketing",
+    "employee": "Dana",
+    "salary": 70000
+  },
+  {
+    "department": "Sales",
+    "employee": "Henry",
+    "salary": 80000
+  }
+]

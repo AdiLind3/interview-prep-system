@@ -272,16 +272,93 @@ def sql_exercise_detail(difficulty, exercise_name):
         with open(data_file, 'r') as f:
             data_text = f.read()
 
+    # Load solution (for show/hide)
+    solution_file = exercise_path / 'solution.sql'
+    solution_text = ""
+    if solution_file.exists():
+        with open(solution_file, 'r', encoding='utf-8') as f:
+            solution_text = f.read()
+
     exercise = {
         'id': f"{difficulty}/{exercise_name}",
         'name': exercise_name.replace('_', ' ').title(),
         'difficulty': difficulty,
         'problem': problem_text,
         'schema': schema_text,
-        'sample_data': data_text
+        'sample_data': data_text,
+        'solution': solution_text
     }
 
     return render_template('sql_exercise_detail.html', exercise=exercise)
+
+
+@app.route('/api/sql/run', methods=['POST'])
+def api_sql_run():
+    """Run a SQL query against exercise data and validate it."""
+    import sqlite3
+
+    data = request.json
+    exercise_id = data.get('exercise_id', '')
+    user_query = data.get('query', '').strip()
+
+    if not user_query:
+        return jsonify({'success': False, 'error': 'Empty query'})
+
+    parts = exercise_id.split('/')
+    if len(parts) != 2:
+        return jsonify({'success': False, 'error': 'Invalid exercise ID'})
+
+    difficulty, exercise_name = parts
+    exercise_path = SQL_EXERCISES_DIR / difficulty / exercise_name
+
+    schema_file = exercise_path / 'schema.sql'
+    data_file = exercise_path / 'sample_data.sql'
+    expected_file = exercise_path / 'expected_output.json'
+
+    if not schema_file.exists():
+        return jsonify({'success': False, 'error': 'Exercise not found'})
+
+    try:
+        conn = sqlite3.connect(':memory:')
+        cursor = conn.cursor()
+
+        with open(schema_file, 'r', encoding='utf-8') as f:
+            cursor.executescript(f.read())
+        with open(data_file, 'r', encoding='utf-8') as f:
+            cursor.executescript(f.read())
+
+        cursor.execute(user_query)
+        columns = [desc[0] for desc in cursor.description] if cursor.description else []
+        rows = cursor.fetchall()
+        result = [dict(zip(columns, row)) for row in rows]
+
+        conn.close()
+
+        # Compare with expected output
+        correct = False
+        expected = None
+        if expected_file.exists():
+            with open(expected_file, 'r', encoding='utf-8') as f:
+                expected = json.load(f)
+            def normalize(val):
+                if isinstance(val, float) and val == int(val):
+                    return int(val)
+                return val
+            norm_result = [{k: normalize(v) for k, v in row.items()} for row in result]
+            norm_expected = [{k: normalize(v) for k, v in row.items()} for row in expected]
+            correct = norm_result == norm_expected
+
+        return jsonify({
+            'success': True,
+            'correct': correct,
+            'columns': columns,
+            'rows': [list(row.values()) for row in result],
+            'row_count': len(result),
+            'expected_count': len(expected) if expected else None
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
 
 
 @app.route('/exercises/python')

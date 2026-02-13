@@ -1,0 +1,30 @@
+[
+  {
+    "seller_id": 1,
+    "join_date": "2023-01-01",
+    "items_sold_2024": 3,
+    "second_item_category": "Books",
+    "category_match": "no"
+  },
+  {
+    "seller_id": 2,
+    "join_date": "2023-02-09",
+    "items_sold_2024": 1,
+    "second_item_category": null,
+    "category_match": "no"
+  },
+  {
+    "seller_id": 3,
+    "join_date": "2023-01-19",
+    "items_sold_2024": 2,
+    "second_item_category": "Clothing",
+    "category_match": "no"
+  },
+  {
+    "seller_id": 4,
+    "join_date": "2023-05-21",
+    "items_sold_2024": 0,
+    "second_item_category": null,
+    "category_match": "no"
+  }
+]

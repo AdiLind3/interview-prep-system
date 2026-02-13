@@ -3,13 +3,13 @@
 {% block title %}{{ exercise.name }} - SQL Exercise{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
+<div class="space-y-6" x-data="sqlEditor()">
     <!-- Header -->
     <div>
         <div class="mb-2">
-            <a href="/exercises/sql" class="text-blue-600 hover:text-blue-800">← Back to SQL Exercises</a>
+            <a href="/exercises/sql" class="text-blue-600 hover:text-blue-800">&larr; Back to SQL Exercises</a>
         </div>
-        <h1 class="text-3xl font-bold text-gray-800">{{ exercise.name }}</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">{{ exercise.name }}</h1>
         {% if exercise.difficulty == 'easy' %}
             <span class="inline-block mt-2 bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded">Easy</span>
         {% elif exercise.difficulty == 'medium' %}
@@ -21,59 +21,182 @@
 
     <!-- Problem statement -->
     <div class="card">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">📋 Problem</h2>
-        <div class="prose max-w-none" id="problem-content"></div>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Problem</h2>
+        <div class="prose max-w-none text-sm md:text-base" id="problem-content"></div>
     </div>
 
     <!-- Schema -->
     {% if exercise.schema %}
-    <div class="card">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">🗄️ Schema</h2>
-        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto"><code class="language-sql">{{ exercise.schema }}</code></pre>
-    </div>
+    <details class="card">
+        <summary class="text-xl font-bold text-gray-800 cursor-pointer">Schema (click to expand)</summary>
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4 text-xs md:text-sm"><code class="language-sql">{{ exercise.schema }}</code></pre>
+    </details>
     {% endif %}
 
     <!-- Sample data -->
     {% if exercise.sample_data %}
-    <details class="card cursor-pointer">
-        <summary class="text-xl font-bold text-gray-800 mb-4">📊 Sample Data (click to expand)</summary>
-        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4"><code class="language-sql">{{ exercise.sample_data }}</code></pre>
+    <details class="card">
+        <summary class="text-xl font-bold text-gray-800 cursor-pointer">Sample Data (click to expand)</summary>
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4 text-xs md:text-sm"><code class="language-sql">{{ exercise.sample_data }}</code></pre>
     </details>
     {% endif %}
 
-    <!-- Note -->
-    <div class="card bg-blue-50 border-2 border-blue-200">
-        <div class="flex items-start space-x-3">
-            <div class="text-2xl">💡</div>
-            <div>
-                <h3 class="font-bold text-gray-800 mb-2">How to solve this:</h3>
-                <ol class="text-gray-700 text-sm space-y-1 list-decimal list-inside">
-                    <li>Read the problem carefully and understand requirements</li>
-                    <li>Open your CLI and navigate to the exercise folder</li>
-                    <li>Edit <code class="bg-white px-2 py-1 rounded">template.sql</code> with your solution</li>
-                    <li>Run the test: <code class="bg-white px-2 py-1 rounded">python sql/tests/test_runner.py {{ exercise.id }}</code></li>
-                    <li>Iterate until all tests pass!</li>
-                </ol>
-            </div>
+    <!-- SQL Editor -->
+    <div class="card border-2 border-blue-300">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Your Solution</h2>
+        <textarea
+            x-model="query"
+            class="w-full h-40 md:h-48 p-3 bg-gray-900 text-green-400 font-mono text-sm rounded-lg border border-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-y"
+            placeholder="Write your SQL query here...
+
+SELECT ...
+FROM ...
+WHERE ..."
+            spellcheck="false"
+            autocapitalize="none"
+            autocomplete="off"
+        ></textarea>
+
+        <div class="flex flex-wrap gap-3 mt-4">
+            <button
+                @click="runQuery()"
+                :disabled="running"
+                class="btn-primary flex items-center gap-2"
+                :class="{ 'opacity-50': running }"
+            >
+                <span x-show="!running">Run Query</span>
+                <span x-show="running">Running...</span>
+            </button>
+
+            <button
+                @click="query = ''"
+                class="btn-secondary"
+            >
+                Clear
+            </button>
+
+            <button
+                @click="showSolution = !showSolution"
+                class="bg-orange-100 text-orange-800 px-6 py-3 rounded-lg font-semibold hover:bg-orange-200 transition-colors"
+            >
+                <span x-text="showSolution ? 'Hide Solution' : 'Show Solution'"></span>
+            </button>
         </div>
+    </div>
+
+    <!-- Results -->
+    <div x-show="resultVisible" class="card" x-cloak>
+        <!-- Success/Failure banner -->
+        <div x-show="correct === true" class="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded-lg mb-4 font-bold text-lg">
+            CORRECT! Well done!
+        </div>
+        <div x-show="correct === false && !errorMsg" class="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded-lg mb-4">
+            <span class="font-bold">Not quite right.</span>
+            <span x-text="'Got ' + rowCount + ' rows, expected ' + expectedCount + '.'"></span>
+            Check your query and try again.
+        </div>
+        <div x-show="errorMsg" class="bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded-lg mb-4">
+            <span class="font-bold">Error: </span><span x-text="errorMsg"></span>
+        </div>
+
+        <!-- Result table -->
+        <div x-show="columns.length > 0" class="overflow-x-auto">
+            <h3 class="font-bold text-gray-700 mb-2" x-text="'Result: ' + rowCount + ' row(s)'"></h3>
+            <table class="min-w-full text-sm border border-gray-300">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <template x-for="col in columns" :key="col">
+                            <th class="px-3 py-2 border text-left font-semibold" x-text="col"></th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(row, i) in rows" :key="i">
+                        <tr :class="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'">
+                            <template x-for="(val, j) in row" :key="j">
+                                <td class="px-3 py-2 border" x-text="val === null ? 'NULL' : val"></td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Solution (hidden by default) -->
+    <div x-show="showSolution" class="card border-2 border-orange-300" x-cloak>
+        <h2 class="text-xl font-bold text-orange-800 mb-4">Solution</h2>
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-xs md:text-sm"><code class="language-sql">{{ exercise.solution }}</code></pre>
     </div>
 </div>
 
 <script>
+function sqlEditor() {
+    return {
+        query: '',
+        running: false,
+        resultVisible: false,
+        correct: null,
+        errorMsg: '',
+        columns: [],
+        rows: [],
+        rowCount: 0,
+        expectedCount: 0,
+        showSolution: false,
+
+        async runQuery() {
+            if (!this.query.trim()) return;
+            this.running = true;
+            this.resultVisible = false;
+            this.errorMsg = '';
+
+            try {
+                const response = await fetch('/api/sql/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        exercise_id: '{{ exercise.id }}',
+                        query: this.query
+                    })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    this.correct = data.correct;
+                    this.columns = data.columns;
+                    this.rows = data.rows;
+                    this.rowCount = data.row_count;
+                    this.expectedCount = data.expected_count;
+                } else {
+                    this.correct = null;
+                    this.errorMsg = data.error;
+                    this.columns = [];
+                    this.rows = [];
+                }
+                this.resultVisible = true;
+            } catch (err) {
+                this.errorMsg = 'Network error: ' + err.message;
+                this.resultVisible = true;
+            } finally {
+                this.running = false;
+            }
+        }
+    };
+}
+
 // Render markdown problem statement
 document.addEventListener('DOMContentLoaded', function() {
     const problemContent = document.getElementById('problem-content');
-    const markdownText = `{{ exercise.problem | safe }}`;
+    const markdownText = {{ exercise.problem | tojson }};
     if (typeof marked !== 'undefined') {
         problemContent.innerHTML = marked.parse(markdownText);
     } else {
         problemContent.textContent = markdownText;
     }
 
-    // Syntax highlighting
     if (typeof hljs !== 'undefined') {
         document.querySelectorAll('pre code').forEach((block) => {
-            hljs.highlightBlock(block);
+            hljs.highlightElement(block);
         });
     }
 });

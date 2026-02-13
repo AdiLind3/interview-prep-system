@@ -6,7 +6,11 @@
       "question": "What's the key difference between ETL and ELT?",
       "answer": "ETL (Extract-Transform-Load): Transforms data before loading into the destination. Transformation happens in a staging area. Good for legacy systems with limited compute.\n\nELT (Extract-Load-Transform): Loads raw data first, then transforms in the destination warehouse. Leverages modern warehouse compute power (like Snowflake, BigQuery). Better for big data and flexibility.",
       "difficulty": "medium",
-      "tags": ["architecture", "data-pipeline", "etl"],
+      "tags": [
+        "architecture",
+        "data-pipeline",
+        "etl"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -20,7 +24,10 @@
       "question": "What is data idempotency and why is it important?",
       "answer": "Idempotency means that running the same operation multiple times produces the same result as running it once.\n\nImportance:\n- Enables safe retries after failures\n- Prevents duplicate data in pipelines\n- Critical for data quality and consistency\n\nExample: INSERT INTO with WHERE NOT EXISTS, or using MERGE/UPSERT instead of plain INSERT.",
       "difficulty": "medium",
-      "tags": ["data-quality", "best-practices"],
+      "tags": [
+        "data-quality",
+        "best-practices"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -34,7 +41,10 @@
       "question": "What is the CAP theorem?",
       "answer": "CAP theorem states that a distributed system can only guarantee 2 out of 3:\n\nC - Consistency: All nodes see the same data at the same time\nA - Availability: System remains operational and responds to requests\nP - Partition Tolerance: System continues despite network failures\n\nIn practice, partition tolerance is required, so you choose between:\n- CP systems: Consistency over availability (e.g., HBase, MongoDB)\n- AP systems: Availability over consistency (e.g., Cassandra, DynamoDB)",
       "difficulty": "hard",
-      "tags": ["distributed-systems", "theory"],
+      "tags": [
+        "distributed-systems",
+        "theory"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -48,7 +58,10 @@
       "question": "Explain Data Lake vs Data Warehouse",
       "answer": "Data Lake:\n- Stores raw, unprocessed data in native format\n- Schema-on-read (define schema when reading)\n- Cheap storage (e.g., S3, HDFS)\n- Good for exploratory analysis, ML\n- Example: AWS S3, Azure Data Lake\n\nData Warehouse:\n- Stores processed, structured data\n- Schema-on-write (define schema when writing)\n- Optimized for fast queries\n- Good for BI and reporting\n- Example: Snowflake, BigQuery, Redshift",
       "difficulty": "easy",
-      "tags": ["architecture", "storage"],
+      "tags": [
+        "architecture",
+        "storage"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -62,7 +75,10 @@
       "question": "What is a Slowly Changing Dimension (SCD) Type 2?",
       "answer": "SCD Type 2 tracks historical changes by creating new rows for each change.\n\nColumns typically include:\n- Surrogate key (unique for each version)\n- Natural/business key\n- Effective_from date\n- Effective_to date (or NULL for current)\n- is_current flag\n\nExample:\nCustomer_ID | Name | Address | Effective_From | Effective_To | is_current\n1 | Alice | NYC | 2020-01-01 | 2022-05-01 | false\n2 | Alice | SF | 2022-05-01 | NULL | true\n\nBenefit: Full history preserved for analysis.",
       "difficulty": "medium",
-      "tags": ["dimensional-modeling", "data-warehouse"],
+      "tags": [
+        "dimensional-modeling",
+        "data-warehouse"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -76,7 +92,10 @@
       "question": "What's the difference between UNION and UNION ALL?",
       "answer": "UNION:\n- Combines result sets and removes duplicates\n- Performs implicit DISTINCT (slower)\n- Requires sorting to find duplicates\n\nUNION ALL:\n- Combines result sets and keeps all rows (including duplicates)\n- Faster (no deduplication overhead)\n- Preserves all data\n\nRule of thumb: Use UNION ALL when you know there are no duplicates or want to keep them. It's more performant.",
       "difficulty": "easy",
-      "tags": ["sql", "performance"],
+      "tags": [
+        "sql",
+        "performance"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -90,7 +109,10 @@
       "question": "When would you use a window function vs GROUP BY?",
       "answer": "GROUP BY:\n- Aggregates rows into groups\n- Reduces number of rows in output\n- Can't access individual row details after aggregation\n- Example: Total sales per region\n\nWindow Functions:\n- Performs calculation across rows while keeping all rows\n- Doesn't reduce row count\n- Can see both detail and aggregate\n- Example: Running total, ranking, moving average\n\nUse window function when you need both detail-level and aggregate data in the same query.",
       "difficulty": "medium",
-      "tags": ["sql", "window-functions"],
+      "tags": [
+        "sql",
+        "window-functions"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -102,9 +124,12 @@
       "id": 8,
       "category": "SQL Concepts",
       "question": "Explain the difference between WHERE and HAVING",
-      "answer": "WHERE:\n- Filters rows BEFORE aggregation\n- Cannot use aggregate functions\n- Applied to individual rows\n- Example: WHERE age > 25\n\nHAVING:\n- Filters groups AFTER aggregation\n- Can use aggregate functions\n- Applied to grouped results\n- Example: HAVING COUNT(*) > 5\n\nExecution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY",
+      "answer": "WHERE:\n- Filters rows BEFORE aggregation\n- Cannot use aggregate functions\n- Applied to individual rows\n- Example: WHERE age > 25\n\nHAVING:\n- Filters groups AFTER aggregation\n- Can use aggregate functions\n- Applied to grouped results\n- Example: HAVING COUNT(*) > 5\n\nExecution order: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY",
       "difficulty": "easy",
-      "tags": ["sql", "fundamentals"],
+      "tags": [
+        "sql",
+        "fundamentals"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -118,7 +143,10 @@
       "question": "What's the difference between loc and iloc in pandas?",
       "answer": "loc: Label-based indexing\n- Uses row/column labels\n- Inclusive of end point\n- Example: df.loc[0:5] includes rows 0-5\n- Example: df.loc[:, 'name':'age'] includes 'name' and 'age'\n\niloc: Position-based indexing\n- Uses integer positions (0-indexed)\n- Exclusive of end point\n- Example: df.iloc[0:5] includes rows 0-4\n- Example: df.iloc[:, 0:3] includes first 3 columns\n\nRule: Use loc for labels, iloc for positions.",
       "difficulty": "easy",
-      "tags": ["pandas", "indexing"],
+      "tags": [
+        "pandas",
+        "indexing"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -132,7 +160,10 @@
       "question": "Explain merge vs join vs concat in pandas",
       "answer": "merge(): SQL-style joins\n- Combines on columns\n- Flexible: can specify left_on, right_on\n- Example: pd.merge(df1, df2, on='key', how='left')\n\njoin(): Index-based joins\n- Joins on index by default\n- Less flexible than merge\n- Example: df1.join(df2)\n\nconcat(): Stacking DataFrames\n- Concatenates along axis (0=rows, 1=columns)\n- Doesn't match on keys by default\n- Example: pd.concat([df1, df2], axis=0)\n\nMost common: merge() for joins, concat() for stacking.",
       "difficulty": "medium",
-      "tags": ["pandas", "joining"],
+      "tags": [
+        "pandas",
+        "joining"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -146,7 +177,11 @@
       "question": "What are the key differences between S3, RDS, and Redshift?",
       "answer": "S3 (Simple Storage Service):\n- Object storage for files\n- Unlimited scalability\n- Cheap (pennies per GB/month)\n- Use for: Data lakes, backups, file storage\n\nRDS (Relational Database Service):\n- Managed relational database (PostgreSQL, MySQL, etc.)\n- OLTP (transactional workloads)\n- Row-based storage\n- Use for: Application databases, transactional data\n\nRedshift:\n- Data warehouse\n- OLAP (analytical workloads)\n- Columnar storage\n- Optimized for complex queries on large datasets\n- Use for: Analytics, BI, reporting",
       "difficulty": "easy",
-      "tags": ["aws", "storage", "databases"],
+      "tags": [
+        "aws",
+        "storage",
+        "databases"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -160,7 +195,11 @@
       "question": "What is AWS Lambda and when would you use it?",
       "answer": "AWS Lambda: Serverless compute service\n- Run code without managing servers\n- Pay only for compute time used\n- Auto-scales automatically\n- Triggered by events (S3, API Gateway, etc.)\n- Max runtime: 15 minutes\n\nUse cases for data engineering:\n- ETL for small datasets\n- Data validation triggers\n- File processing on S3 upload\n- Real-time data transformations\n- Scheduling simple tasks\n\nNot ideal for:\n- Long-running jobs (>15 min)\n- Heavy compute workloads\n- Jobs requiring persistent state",
       "difficulty": "medium",
-      "tags": ["aws", "serverless", "compute"],
+      "tags": [
+        "aws",
+        "serverless",
+        "compute"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -174,7 +213,11 @@
       "question": "What is sharding and when would you use it?",
       "answer": "Sharding: Horizontal partitioning of data across multiple databases\n\nHow it works:\n- Split large dataset into smaller pieces (shards)\n- Each shard is an independent database\n- Use shard key to determine which shard holds the data\n\nBenefits:\n- Distributes load across multiple machines\n- Improves read/write performance\n- Enables horizontal scaling\n\nChallenges:\n- Complex queries across shards\n- Rebalancing when adding shards\n- Choosing the right shard key\n\nExample: User data sharded by user_id % num_shards",
       "difficulty": "hard",
-      "tags": ["system-design", "scalability", "databases"],
+      "tags": [
+        "system-design",
+        "scalability",
+        "databases"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -186,9 +229,13 @@
       "id": 14,
       "category": "System Design",
       "question": "Explain the purpose of a message queue (e.g., Kafka, RabbitMQ)",
-      "answer": "Message Queue: Middleware for asynchronous communication between services\n\nKey concepts:\n- Producer: Sends messages\n- Consumer: Receives messages\n- Queue/Topic: Holds messages\n- Decouples services\n\nBenefits:\n- Asynchronous processing\n- Load leveling (smooth traffic spikes)\n- Fault tolerance (retry failed messages)\n- Scalability (multiple consumers)\n\nUse cases in data engineering:\n- Event streaming (Kafka)\n- Job queues for ETL\n- Real-time data pipelines\n- Microservices communication\n\nExample: Click events → Kafka → Stream processor → Data warehouse",
+      "answer": "Message Queue: Middleware for asynchronous communication between services\n\nKey concepts:\n- Producer: Sends messages\n- Consumer: Receives messages\n- Queue/Topic: Holds messages\n- Decouples services\n\nBenefits:\n- Asynchronous processing\n- Load leveling (smooth traffic spikes)\n- Fault tolerance (retry failed messages)\n- Scalability (multiple consumers)\n\nUse cases in data engineering:\n- Event streaming (Kafka)\n- Job queues for ETL\n- Real-time data pipelines\n- Microservices communication\n\nExample: Click events -> Kafka -> Stream processor -> Data warehouse",
       "difficulty": "medium",
-      "tags": ["system-design", "messaging", "streaming"],
+      "tags": [
+        "system-design",
+        "messaging",
+        "streaming"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -202,7 +249,1182 @@
       "question": "What is the difference between batch processing and stream processing?",
       "answer": "Batch Processing:\n- Processes data in large groups at scheduled intervals\n- High latency (hours to days)\n- High throughput\n- Complete data available\n- Tools: Spark, Hadoop MapReduce\n- Example: Daily sales reports\n\nStream Processing:\n- Processes data continuously as it arrives\n- Low latency (seconds to minutes)\n- Lower throughput per message\n- Partial/windowed data\n- Tools: Kafka Streams, Flink, Spark Streaming\n- Example: Real-time fraud detection\n\nChoice depends on:\n- Latency requirements\n- Data velocity\n- Use case (analytics vs real-time decisions)",
       "difficulty": "easy",
-      "tags": ["system-design", "data-processing"],
+      "tags": [
+        "system-design",
+        "data-processing"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 16,
+      "category": "Data Engineering Concepts",
+      "question": "What is a star schema and how does it differ from a snowflake schema?",
+      "answer": "Star Schema:\n- Central fact table surrounded by dimension tables\n- Dimension tables are denormalized (flat)\n- Fewer JOINs needed for queries\n- Better query performance\n- More storage due to redundancy\n\nSnowflake Schema:\n- Extension of star schema where dimension tables are normalized\n- Dimension tables branch into sub-dimension tables\n- More JOINs needed\n- Less storage, less redundancy\n- Harder to query\n\nExample: In a star schema, a dim_product table has a 'category_name' column directly. In a snowflake schema, dim_product links to a separate dim_category table.\n\nPreference: Star schema is more common in modern data warehouses because query performance matters more than storage savings.",
+      "difficulty": "medium",
+      "tags": [
+        "dimensional-modeling",
+        "data-warehouse",
+        "schema-design"
+      ],
+      "last_reviewed": "2026-02-13T17:11:41.498529",
+      "next_review": "2026-02-14T17:11:41.498560",
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 1,
+      "repetitions": 0
+    },
+    {
+      "id": 17,
+      "category": "Data Engineering Concepts",
+      "question": "What are the key data quality dimensions?",
+      "answer": "The six core data quality dimensions:\n\n1. Completeness - Are all required fields populated? (e.g., no missing emails)\n2. Accuracy - Does the data reflect the real-world truth? (e.g., correct addresses)\n3. Consistency - Is data the same across systems? (e.g., same customer name in CRM and warehouse)\n4. Timeliness - Is data available when needed? (e.g., daily reports ready by 8 AM)\n5. Uniqueness - No unintended duplicates? (e.g., one record per customer)\n6. Validity - Does data conform to defined formats/rules? (e.g., email matches regex pattern)\n\nPractical tip: Implement data quality checks as automated tests in your pipeline (e.g., dbt tests, Great Expectations).",
+      "difficulty": "medium",
+      "tags": [
+        "data-quality",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 18,
+      "category": "Data Engineering Concepts",
+      "question": "What is schema-on-read vs schema-on-write?",
+      "answer": "Schema-on-Write:\n- Define the schema before writing data\n- Data is validated and structured at ingestion time\n- Used by relational databases and data warehouses\n- Pros: Fast reads, data quality enforced upfront\n- Cons: Slower ingestion, rigid schema changes\n\nSchema-on-Read:\n- Store raw data without predefined schema\n- Apply schema when reading/querying the data\n- Used by data lakes (S3, HDFS)\n- Pros: Fast ingestion, flexible for diverse data\n- Cons: Slower reads, data quality issues found late\n\nModern trend: Data lakehouses combine both approaches -- store raw data but also support schema enforcement when needed.",
+      "difficulty": "easy",
+      "tags": [
+        "architecture",
+        "data-lake",
+        "data-warehouse"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 19,
+      "category": "Data Engineering Concepts",
+      "question": "What is data lineage and why does it matter?",
+      "answer": "Data lineage tracks the origin, movement, and transformation of data throughout its lifecycle.\n\nIt answers:\n- Where did this data come from? (source systems)\n- What transformations were applied? (business logic)\n- Where does this data go? (downstream consumers)\n- When was it last updated? (freshness)\n\nWhy it matters:\n- Debugging: Trace errors back to the source\n- Impact analysis: Know what breaks if a source changes\n- Compliance: Prove data handling for GDPR, SOX, etc.\n- Trust: Stakeholders can verify data reliability\n\nTools: OpenLineage, Apache Atlas, dbt docs (model-level lineage), Marquez, DataHub.",
+      "difficulty": "medium",
+      "tags": [
+        "data-governance",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 20,
+      "category": "Data Engineering Concepts",
+      "question": "What is a DAG in the context of data orchestration?",
+      "answer": "DAG = Directed Acyclic Graph\n\n- Directed: Each edge has a direction (task A must run before task B)\n- Acyclic: No circular dependencies (A->B->C->A is not allowed)\n- Graph: Tasks are nodes, dependencies are edges\n\nIn orchestration tools like Airflow:\n- Each DAG defines a workflow/pipeline\n- Tasks within a DAG have defined dependencies\n- The scheduler respects the dependency order\n- Failed tasks can be retried without re-running completed upstream tasks\n\nExample Airflow DAG:\nextract_task >> transform_task >> load_task\nextract_task >> validate_task >> load_task\n\nThis means extract runs first, then transform and validate run in parallel, then load runs last.",
+      "difficulty": "easy",
+      "tags": [
+        "orchestration",
+        "airflow",
+        "architecture"
+      ],
+      "last_reviewed": "2026-02-13T17:12:17.458316",
+      "next_review": "2026-02-14T17:12:17.458339",
+      "confidence": 5,
+      "ease_factor": 2.6,
+      "interval": 1,
+      "repetitions": 1
+    },
+    {
+      "id": 21,
+      "category": "Data Engineering Concepts",
+      "question": "What are the key dbt concepts: models, tests, sources, and materializations?",
+      "answer": "dbt (data build tool) core concepts:\n\nModels:\n- SQL SELECT statements that define transformations\n- Each model is a .sql file that becomes a table or view\n- Models can reference other models using ref('model_name')\n\nSources:\n- Declare raw tables from source systems using source('schema', 'table')\n- Enables freshness checks and lineage tracking\n\nTests:\n- Assertions about your data (unique, not_null, accepted_values, relationships)\n- Custom tests via SQL returning failing rows\n\nMaterializations:\n- table: Rebuilds full table each run\n- view: Creates a SQL view (no stored data)\n- incremental: Only processes new/changed rows\n- ephemeral: CTE injected into downstream models, not stored\n\nBest practice: Use views for simple transforms, incremental for large tables, tables for heavily-queried models.",
+      "difficulty": "medium",
+      "tags": [
+        "dbt",
+        "transformation",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 22,
+      "category": "Data Engineering Concepts",
+      "question": "What are common web scraping patterns and best practices?",
+      "answer": "Common patterns:\n- Request-parse: Use requests + BeautifulSoup for static HTML\n- Browser automation: Use Selenium or Playwright for JavaScript-rendered pages\n- API discovery: Check network tab for hidden APIs that return JSON directly\n- Pagination handling: Loop through pages, handle cursor-based or offset pagination\n\nBest practices:\n- Respect robots.txt and rate limits\n- Add delays between requests (time.sleep or random intervals)\n- Set proper User-Agent headers\n- Handle errors gracefully (retries with exponential backoff)\n- Cache responses to avoid re-fetching during development\n- Use session objects to reuse TCP connections\n- Store raw HTML before parsing (enables re-parsing without re-fetching)\n\nEthical considerations:\n- Check terms of service\n- Do not overload the server\n- Consider using official APIs when available",
+      "difficulty": "medium",
+      "tags": [
+        "web-scraping",
+        "python",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 23,
+      "category": "Data Engineering Concepts",
+      "question": "What is partitioning and bucketing in data storage?",
+      "answer": "Partitioning:\n- Divides data into separate directories/files based on column values\n- Common partition keys: date, region, status\n- Enables partition pruning (skip irrelevant files when querying)\n- Example: s3://data/year=2025/month=01/day=15/file.parquet\n- Best for: Columns used in WHERE/filter clauses with low cardinality\n\nBucketing (Clustering):\n- Distributes data into fixed number of files using hash of a column\n- Useful for columns with high cardinality (e.g., user_id)\n- Improves JOIN performance when both tables are bucketed on join key\n- Example: 256 buckets based on hash(user_id)\n\nKey difference: Partitioning creates directory structure based on values; bucketing creates fixed number of files using hashing.\n\nCombined: Partition by date, bucket by user_id within each partition.",
+      "difficulty": "medium",
+      "tags": [
+        "storage",
+        "performance",
+        "data-warehouse"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 24,
+      "category": "Data Engineering Concepts",
+      "question": "What are the ACID properties of database transactions?",
+      "answer": "ACID ensures reliable database transactions:\n\nAtomicity:\n- Transaction is all-or-nothing\n- If any part fails, entire transaction rolls back\n- Example: Transfer money -- both debit and credit must succeed\n\nConsistency:\n- Transaction brings database from one valid state to another\n- All constraints, rules, and triggers are satisfied\n- Example: Foreign key constraints remain valid\n\nIsolation:\n- Concurrent transactions don't interfere with each other\n- Each transaction sees a consistent snapshot\n- Isolation levels: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE\n\nDurability:\n- Once committed, changes survive system failures\n- Data is written to persistent storage\n- Ensured by write-ahead logging (WAL)\n\nRelevance to DE: Understanding ACID matters when choosing between OLTP databases (strong ACID) vs distributed systems (often relaxed ACID for performance).",
+      "difficulty": "medium",
+      "tags": [
+        "databases",
+        "theory",
+        "transactions"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 25,
+      "category": "Data Engineering Concepts",
+      "question": "What is data governance and why is it important?",
+      "answer": "Data governance is the framework of policies, processes, and standards for managing data assets across an organization.\n\nKey pillars:\n- Data Quality: Standards for accuracy, completeness, consistency\n- Data Security: Access controls, encryption, masking sensitive data\n- Data Privacy: Compliance with GDPR, CCPA, HIPAA\n- Data Catalog: Metadata management, discoverability\n- Data Lineage: Tracking data flow from source to consumption\n- Data Ownership: Clear accountability for data domains\n\nWhy it matters for data engineers:\n- Ensures trust in data for decision-making\n- Reduces risk of regulatory fines\n- Prevents data silos and inconsistencies\n- Enables self-service analytics\n\nTools: Apache Atlas, Collibra, Alation, AWS Glue Data Catalog, DataHub.",
+      "difficulty": "easy",
+      "tags": [
+        "data-governance",
+        "compliance",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 26,
+      "category": "Data Engineering Concepts",
+      "question": "What is database normalization and what are the normal forms?",
+      "answer": "Normalization: Process of organizing data to reduce redundancy and improve integrity.\n\nKey normal forms:\n\n1NF (First Normal Form):\n- Each column contains atomic (indivisible) values\n- No repeating groups\n- Bad: colors='red,blue' / Good: separate rows for each color\n\n2NF (Second Normal Form):\n- Meets 1NF + every non-key column depends on the entire primary key\n- Eliminates partial dependencies\n\n3NF (Third Normal Form):\n- Meets 2NF + no transitive dependencies\n- Non-key columns depend only on the primary key, not on other non-key columns\n- Bad: order has customer_id AND customer_name (name depends on customer_id)\n\nIn practice:\n- OLTP systems: Normalize to 3NF for data integrity\n- OLAP/warehouse: Denormalize for query performance (star schema)",
+      "difficulty": "medium",
+      "tags": [
+        "databases",
+        "schema-design",
+        "theory"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 27,
+      "category": "Data Engineering Concepts",
+      "question": "What are orchestration scheduling strategies and dependency management?",
+      "answer": "Scheduling strategies:\n- Cron-based: Run at fixed times (e.g., '0 6 * * *' for daily at 6 AM)\n- Event-driven: Trigger when upstream data arrives (e.g., S3 sensor in Airflow)\n- Data-aware: Trigger when data meets quality conditions\n- Hybrid: Combine time-based with data sensors\n\nDependency management:\n- Task dependencies: Define execution order within a DAG\n- Cross-DAG dependencies: ExternalTaskSensor or TriggerDagRunOperator in Airflow\n- Dataset dependencies: Airflow 2.4+ dataset-aware scheduling\n\nBest practices:\n- Set appropriate timeouts and retries\n- Use SLAs to alert on late pipelines\n- Implement circuit breakers for failing dependencies\n- Keep DAGs simple and modular\n- Use pools to limit concurrent resource usage\n\nExample Airflow: default_args = {'retries': 3, 'retry_delay': timedelta(minutes=5)}",
+      "difficulty": "hard",
+      "tags": [
+        "orchestration",
+        "airflow",
+        "scheduling"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 28,
+      "category": "Data Engineering Concepts",
+      "question": "What are dbt materialization strategies and when to use each?",
+      "answer": "dbt materialization types:\n\n1. View (default):\n- Creates a SQL view, no data stored\n- Always shows latest data\n- Use for: Light transformations, infrequently queried models\n\n2. Table:\n- Creates a physical table, rebuilt on each run\n- Fast queries but full rebuild cost\n- Use for: Heavily queried models, BI-facing tables\n\n3. Incremental:\n- Only processes new/changed data since last run\n- Requires a unique_key and is_incremental() logic\n- Use for: Large fact tables, event logs, append-heavy data\n- Example:\n  SELECT * FROM source WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})\n\n4. Ephemeral:\n- Not stored, injected as CTE into downstream models\n- Use for: Reusable logic, intermediate calculations\n\nDecision guide: Start with views, move to tables when queries are slow, use incremental for tables with millions+ rows.",
+      "difficulty": "hard",
+      "tags": [
+        "dbt",
+        "transformation",
+        "performance"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 29,
+      "category": "Data Engineering Concepts",
+      "question": "What is Change Data Capture (CDC)?",
+      "answer": "CDC (Change Data Capture) is a technique for identifying and capturing changes made to data in a source system.\n\nApproaches:\n1. Timestamp-based: Query rows with updated_at > last_sync_time\n   - Simple but misses deletes and requires timestamp column\n2. Log-based: Read database transaction logs (WAL in PostgreSQL)\n   - Captures all changes including deletes, minimal source impact\n   - Tools: Debezium, AWS DMS, Fivetran\n3. Trigger-based: Database triggers write changes to a shadow table\n   - Reliable but adds overhead to source database\n\nBenefits:\n- Near real-time data sync\n- Captures full history of changes\n- Minimal impact on source system (log-based)\n- Enables event-driven architectures\n\nCommon pattern: Source DB -> Debezium -> Kafka -> Stream processor -> Data warehouse",
+      "difficulty": "hard",
+      "tags": [
+        "data-pipeline",
+        "cdc",
+        "real-time"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 30,
+      "category": "Data Engineering Concepts",
+      "question": "What are the main file formats used in data engineering?",
+      "answer": "Common file formats:\n\nCSV:\n- Human-readable, simple\n- No schema, no compression\n- Use for: Small data exchange, quick exports\n\nJSON:\n- Semi-structured, self-describing\n- Verbose, not ideal for analytics\n- Use for: APIs, configuration, nested data\n\nParquet:\n- Columnar format, compressed\n- Schema embedded, supports complex types\n- Great for analytical queries (read only needed columns)\n- Use for: Data lakes, analytical workloads\n\nAvro:\n- Row-based, schema included\n- Good for schema evolution\n- Use for: Kafka messages, data serialization\n\nORC:\n- Columnar, optimized for Hive\n- Similar to Parquet but Hive-ecosystem focused\n\nDelta Lake / Iceberg:\n- Table format on top of Parquet\n- ACID transactions, time travel, schema evolution\n- Use for: Lakehouse architectures",
+      "difficulty": "easy",
+      "tags": [
+        "storage",
+        "file-formats",
+        "data-lake"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 31,
+      "category": "SQL Concepts",
+      "question": "What is a CTE and when should you use it instead of a subquery?",
+      "answer": "CTE (Common Table Expression) is a named temporary result set defined with the WITH keyword.\n\nSyntax:\nWITH active_users AS (\n  SELECT user_id, name FROM users WHERE status = 'active'\n)\nSELECT * FROM active_users;\n\nCTE advantages over subqueries:\n- Readability: Named, self-documenting blocks\n- Reusability: Reference the same CTE multiple times in one query\n- Recursion: CTEs support recursive queries (subqueries do not)\n- Debugging: Easier to test each part independently\n\nWhen to use subqueries instead:\n- Simple, one-time-use inline filtering\n- Correlated subqueries (reference outer query)\n- Some databases optimize subqueries better in certain cases\n\nPerformance note: In PostgreSQL, CTEs before v12 were optimization fences (always materialized). From v12+, the optimizer can inline them.",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "cte",
+        "query-optimization"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 32,
+      "category": "SQL Concepts",
+      "question": "What is a self JOIN and when would you use it?",
+      "answer": "A self JOIN is when a table is joined with itself. Useful for comparing rows within the same table.\n\nCommon use cases:\n\n1. Hierarchical data (manager-employee):\nSELECT e.name AS employee, m.name AS manager\nFROM employees e\nLEFT JOIN employees m ON e.manager_id = m.employee_id;\n\n2. Finding duplicates:\nSELECT a.id, b.id\nFROM orders a\nJOIN orders b ON a.customer_id = b.customer_id\n  AND a.id < b.id;\n\n3. Comparing consecutive rows:\nSELECT curr.date, curr.value, prev.value AS prev_value\nFROM metrics curr\nJOIN metrics prev ON curr.id = prev.id + 1;\n\nTip: Always use table aliases (a, b or meaningful names) to distinguish the two instances of the same table.",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "joins",
+        "patterns"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 33,
+      "category": "SQL Concepts",
+      "question": "What is the difference between RANK, DENSE_RANK, and ROW_NUMBER?",
+      "answer": "All three are ranking window functions, but they handle ties differently.\n\nGiven scores: 100, 90, 90, 80\n\nROW_NUMBER(): Unique sequential number, no ties\n  100 -> 1, 90 -> 2, 90 -> 3, 80 -> 4\n  (Arbitrary order for ties)\n\nRANK(): Same rank for ties, gaps after ties\n  100 -> 1, 90 -> 2, 90 -> 2, 80 -> 4\n  (Skips rank 3)\n\nDENSE_RANK(): Same rank for ties, no gaps\n  100 -> 1, 90 -> 2, 90 -> 2, 80 -> 3\n  (No skipped ranks)\n\nWhen to use:\n- ROW_NUMBER: Need unique row identifier, deduplication (pick one per group)\n- RANK: Competition-style ranking where ties push down subsequent ranks\n- DENSE_RANK: Need consecutive rank numbers, top-N analysis\n\nSyntax: RANK() OVER (PARTITION BY dept ORDER BY salary DESC)",
+      "difficulty": "easy",
+      "tags": [
+        "sql",
+        "window-functions",
+        "ranking"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 34,
+      "category": "SQL Concepts",
+      "question": "How do COALESCE and NULLIF work in SQL?",
+      "answer": "COALESCE(val1, val2, ...): Returns the first non-NULL value from the list.\n\nExamples:\n- COALESCE(phone, email, 'no contact') -- first available contact method\n- COALESCE(updated_at, created_at) -- use updated if available, otherwise created\n- COALESCE(SUM(amount), 0) -- replace NULL sum with 0\n\nNULLIF(val1, val2): Returns NULL if val1 equals val2, otherwise returns val1.\n\nExamples:\n- NULLIF(status, '') -- convert empty strings to NULL\n- NULLIF(count, 0) -- prevent division by zero:\n  total / NULLIF(count, 0) -- returns NULL instead of error\n\nCombined pattern:\nCOALESCE(total / NULLIF(count, 0), 0)\n-- Safe division: returns 0 if count is 0\n\nThese are essential for handling NULL values cleanly in production queries.",
+      "difficulty": "easy",
+      "tags": [
+        "sql",
+        "null-handling",
+        "fundamentals"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 35,
+      "category": "SQL Concepts",
+      "question": "EXISTS vs IN: What is the performance difference?",
+      "answer": "IN:\n- Checks if a value matches any value in a list or subquery result\n- The subquery is executed first, results stored in memory\n- Better when the subquery returns a small result set\n- Handles NULLs: IN can give unexpected results with NULLs\n\nExample: SELECT * FROM orders WHERE customer_id IN (SELECT id FROM customers WHERE active = true)\n\nEXISTS:\n- Checks if the subquery returns any rows (true/false)\n- Uses correlated subquery, stops at first match\n- Better when the outer table is small and inner table is large\n- Not affected by NULLs\n\nExample: SELECT * FROM orders o WHERE EXISTS (SELECT 1 FROM customers c WHERE c.id = o.customer_id AND c.active = true)\n\nRule of thumb:\n- Small subquery result -> IN may be faster\n- Large subquery result -> EXISTS is usually faster\n- Modern query optimizers often make them equivalent\n- NOT EXISTS is almost always better than NOT IN (NULL safety)",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "performance",
+        "query-optimization"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 36,
+      "category": "SQL Concepts",
+      "question": "What are the main types of database indexes and when to use them?",
+      "answer": "Index types:\n\n1. B-Tree (default):\n- Balanced tree structure, good for equality and range queries\n- Best for: WHERE col = value, ORDER BY, BETWEEN\n- Most common index type\n\n2. Hash Index:\n- Hash table lookup, equality only\n- Best for: Exact match lookups (WHERE col = value)\n- Not useful for ranges\n\n3. GIN (Generalized Inverted Index):\n- For composite values (arrays, JSONB, full-text)\n- Best for: JSONB containment, array overlap, text search\n\n4. GiST (Generalized Search Tree):\n- For geometric and range data\n- Best for: PostGIS, range types, nearest-neighbor\n\n5. Composite Index:\n- Index on multiple columns\n- Column order matters: (a, b) supports WHERE a=1 AND b=2, or WHERE a=1, but NOT WHERE b=2 alone\n\nWhen NOT to index:\n- Small tables\n- Columns rarely used in WHERE/JOIN\n- Columns with very low selectivity (e.g., boolean)\n- Heavy write tables where index maintenance is costly",
+      "difficulty": "hard",
+      "tags": [
+        "sql",
+        "indexing",
+        "performance"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 37,
+      "category": "SQL Concepts",
+      "question": "What is a correlated subquery?",
+      "answer": "A correlated subquery references columns from the outer query, causing it to execute once per row of the outer query.\n\nRegular subquery (runs once):\nSELECT * FROM employees\nWHERE dept_id IN (SELECT id FROM departments WHERE budget > 100000)\n\nCorrelated subquery (runs per row):\nSELECT e.name, e.salary,\n  (SELECT AVG(salary) FROM employees e2 WHERE e2.dept_id = e.dept_id) AS dept_avg\nFROM employees e;\n\nAnother example - find employees earning above their department average:\nSELECT * FROM employees e\nWHERE salary > (\n  SELECT AVG(salary) FROM employees e2\n  WHERE e2.dept_id = e.dept_id\n);\n\nPerformance note: Correlated subqueries can be slow on large tables because they execute once per outer row. Often can be rewritten as JOINs or window functions for better performance:\n\nSELECT e.* FROM employees e\nJOIN (SELECT dept_id, AVG(salary) avg_sal FROM employees GROUP BY dept_id) d\n  ON e.dept_id = d.dept_id WHERE e.salary > d.avg_sal;",
+      "difficulty": "hard",
+      "tags": [
+        "sql",
+        "subqueries",
+        "performance"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 38,
+      "category": "SQL Concepts",
+      "question": "What are common CASE WHEN patterns in SQL?",
+      "answer": "CASE WHEN is SQL's if-then-else logic. Common patterns:\n\n1. Categorization:\nSELECT name,\n  CASE WHEN score >= 90 THEN 'A'\n       WHEN score >= 80 THEN 'B'\n       WHEN score >= 70 THEN 'C'\n       ELSE 'F' END AS grade\nFROM students;\n\n2. Conditional aggregation (pivot-like):\nSELECT department,\n  COUNT(CASE WHEN status = 'active' THEN 1 END) AS active_count,\n  COUNT(CASE WHEN status = 'inactive' THEN 1 END) AS inactive_count\nFROM employees GROUP BY department;\n\n3. Custom sort order:\nORDER BY CASE status\n  WHEN 'critical' THEN 1\n  WHEN 'warning' THEN 2\n  WHEN 'info' THEN 3 END;\n\n4. NULL handling:\nCASE WHEN email IS NOT NULL THEN email ELSE phone END\n\n5. Safe division:\nCASE WHEN denominator = 0 THEN 0\n     ELSE numerator / denominator END\n\nTip: CASE WHEN evaluates conditions in order and returns the first match.",
+      "difficulty": "easy",
+      "tags": [
+        "sql",
+        "fundamentals",
+        "patterns"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 39,
+      "category": "SQL Concepts",
+      "question": "What is the SQL query execution order?",
+      "answer": "SQL appears to run top-to-bottom, but the actual logical execution order is different:\n\n1. FROM / JOIN - Identify source tables and join them\n2. WHERE - Filter individual rows\n3. GROUP BY - Group remaining rows\n4. HAVING - Filter groups\n5. SELECT - Evaluate expressions and aliases\n6. DISTINCT - Remove duplicates\n7. ORDER BY - Sort results\n8. LIMIT / OFFSET - Restrict output rows\n\nWhy this matters:\n- Cannot use SELECT aliases in WHERE (WHERE runs before SELECT)\n- CAN use SELECT aliases in ORDER BY (ORDER BY runs after SELECT)\n- Cannot use aggregate functions in WHERE (use HAVING instead)\n- JOIN conditions are evaluated before WHERE conditions\n\nCommon mistake:\nSELECT name, COUNT(*) AS cnt FROM users\nGROUP BY name WHERE cnt > 5  -- WRONG: WHERE runs before SELECT\n-- Correct: HAVING COUNT(*) > 5\n\nNote: Window functions execute after HAVING but before DISTINCT.",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "fundamentals",
+        "execution-order"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 40,
+      "category": "SQL Concepts",
+      "question": "Temp tables vs CTEs vs subqueries: when to use which?",
+      "answer": "Temporary Tables:\n- Physically created in tempdb, persist for session duration\n- Can be indexed, have statistics\n- Good for: Large intermediate results, multiple reuses, complex multi-step logic\n- Syntax: CREATE TEMP TABLE tmp AS SELECT ...\n\nCTEs (Common Table Expressions):\n- Named, inline result sets within a single query\n- Cannot be indexed\n- Good for: Readability, recursive queries, moderate reuse within one statement\n- Syntax: WITH cte AS (SELECT ...) SELECT * FROM cte\n\nSubqueries:\n- Inline, anonymous result sets\n- Simplest form, no reuse\n- Good for: Simple filtering, one-time use, correlated lookups\n- Syntax: SELECT * FROM (SELECT ...) sub\n\nDecision guide:\n- Need it once, simple? -> Subquery\n- Need it multiple times in one query, or recursive? -> CTE\n- Need indexes, statistics, or multi-query reuse? -> Temp table\n- Very large intermediate result? -> Temp table",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "performance",
+        "patterns"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 41,
+      "category": "SQL Concepts",
+      "question": "What are CROSS JOIN use cases?",
+      "answer": "CROSS JOIN produces the Cartesian product of two tables (every row from A combined with every row from B).\n\nSyntax: SELECT * FROM table_a CROSS JOIN table_b;\n\nCommon use cases:\n\n1. Generate all combinations:\n-- All products in all stores\nSELECT s.store_name, p.product_name\nFROM stores s CROSS JOIN products p;\n\n2. Fill gaps in time-series data:\n-- Every date for every user (for reporting zeroes)\nSELECT d.date, u.user_id, COALESCE(m.value, 0)\nFROM dates d\nCROSS JOIN users u\nLEFT JOIN metrics m ON d.date = m.date AND u.user_id = m.user_id;\n\n3. Parameter expansion:\n-- Apply each discount tier to each product\nSELECT p.name, d.discount_pct, p.price * (1 - d.discount_pct) AS discounted\nFROM products p CROSS JOIN discount_tiers d;\n\nWarning: CROSS JOIN can produce huge result sets. If table A has 1000 rows and table B has 1000 rows, the result has 1,000,000 rows. Always ensure at least one side is small.",
+      "difficulty": "medium",
+      "tags": [
+        "sql",
+        "joins",
+        "patterns"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 42,
+      "category": "SQL Concepts",
+      "question": "What are key PostgreSQL-specific features useful for data engineering?",
+      "answer": "PostgreSQL-specific features:\n\n1. JSONB:\n- Binary JSON storage with indexing support\n- Operators: ->> (text), -> (json), @> (contains), ? (key exists)\n- Example: SELECT data->>'name' FROM events WHERE data @> '{\"type\": \"click\"}';\n- Create GIN index for fast lookups\n\n2. Arrays:\n- Store arrays natively: tags TEXT[]\n- Operators: ANY, ALL, @> (contains), && (overlap)\n- Example: SELECT * FROM posts WHERE 'python' = ANY(tags);\n\n3. LATERAL JOIN:\n- Subquery can reference columns from preceding tables\n- Like a correlated subquery but in FROM clause\n- Example: Get top 3 orders per customer:\nSELECT c.name, o.* FROM customers c\nLATERAL (SELECT * FROM orders WHERE customer_id = c.id ORDER BY amount DESC LIMIT 3) o;\n\n4. Other useful features:\n- GENERATE_SERIES: Create sequences of numbers or dates\n- COPY: Bulk import/export (much faster than INSERT)\n- Materialized Views: Cached query results with REFRESH\n- UPSERT: INSERT ... ON CONFLICT DO UPDATE",
+      "difficulty": "hard",
+      "tags": [
+        "sql",
+        "postgresql",
+        "advanced"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 43,
+      "category": "Python/Pandas",
+      "question": "What is the difference between list comprehensions and generator expressions?",
+      "answer": "List Comprehension: Creates a full list in memory.\nresult = [x**2 for x in range(1000000)]  # All values stored in memory\n\nGenerator Expression: Creates values lazily, one at a time.\nresult = (x**2 for x in range(1000000))  # Values computed on demand\n\nKey differences:\n- Memory: List comprehension stores all items; generator uses almost no memory\n- Syntax: Square brackets [] vs parentheses ()\n- Iteration: List can be iterated multiple times; generator is single-use\n- Speed: List creation is slightly faster per item; generator wins for large data\n\nWhen to use generators:\n- Large datasets that do not fit in memory\n- When you only need to iterate once\n- Piping data through transformations\n\nWhen to use list comprehensions:\n- Small to medium datasets\n- Need to access items by index or iterate multiple times\n- Need len(), slicing, or other list operations\n\nExample: sum(x**2 for x in range(10))  # Generator passed directly to sum()",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "performance",
+        "fundamentals"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 44,
+      "category": "Python/Pandas",
+      "question": "How do dictionary comprehensions work in Python?",
+      "answer": "Dictionary comprehensions create dictionaries in a concise way.\n\nBasic syntax: {key_expr: value_expr for item in iterable}\n\nExamples:\n\n# Basic:\nsquares = {x: x**2 for x in range(5)}\n# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}\n\n# With condition:\neven_squares = {x: x**2 for x in range(10) if x % 2 == 0}\n# {0: 0, 2: 4, 4: 16, 6: 36, 8: 64}\n\n# Swap keys and values:\noriginal = {'a': 1, 'b': 2, 'c': 3}\nswapped = {v: k for k, v in original.items()}\n# {1: 'a', 2: 'b', 3: 'c'}\n\n# From two lists:\nkeys = ['name', 'age', 'city']\nvalues = ['Alice', 30, 'NYC']\nresult = {k: v for k, v in zip(keys, values)}\n\n# Transform values:\nprices = {'apple': 1.0, 'banana': 0.5}\ntax_prices = {k: round(v * 1.17, 2) for k, v in prices.items()}\n\nTip: Use dict comprehensions when transforming or filtering dictionaries instead of manual for loops.",
+      "difficulty": "easy",
+      "tags": [
+        "python",
+        "fundamentals",
+        "data-structures"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 45,
+      "category": "Python/Pandas",
+      "question": "What are *args and **kwargs in Python?",
+      "answer": "*args: Collects positional arguments into a tuple.\n**kwargs: Collects keyword arguments into a dictionary.\n\ndef example(required, *args, **kwargs):\n    print(required)  # 'hello'\n    print(args)      # (1, 2, 3)\n    print(kwargs)    # {'name': 'Alice', 'age': 30}\n\nexample('hello', 1, 2, 3, name='Alice', age=30)\n\nCommon use cases:\n\n1. Flexible functions:\ndef log_message(level, *messages):\n    for msg in messages:\n        print(f'[{level}] {msg}')\n\n2. Wrapper/decorator functions:\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print('Before call')\n        result = func(*args, **kwargs)\n        print('After call')\n        return result\n    return wrapper\n\n3. Passing arguments through:\ndef create_user(**kwargs):\n    return User(**kwargs)\n\nUnpacking:\nnums = [1, 2, 3]\nprint(*nums)  # prints: 1 2 3\n\nconfig = {'host': 'localhost', 'port': 5432}\nconnect(**config)  # connect(host='localhost', port=5432)",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "fundamentals",
+        "functions"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 46,
+      "category": "Python/Pandas",
+      "question": "How do Python decorators work?",
+      "answer": "A decorator is a function that takes another function and extends its behavior without modifying it.\n\nBasic pattern:\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        # Code before\n        result = func(*args, **kwargs)\n        # Code after\n        return result\n    return wrapper\n\n@my_decorator\ndef say_hello(name):\n    return f'Hello, {name}'\n\n# Equivalent to: say_hello = my_decorator(say_hello)\n\nPractical examples:\n\n1. Timing decorator:\nimport time\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        print(f'{func.__name__} took {time.time() - start:.2f}s')\n        return result\n    return wrapper\n\n2. Retry decorator:\ndef retry(max_attempts=3):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    if attempt == max_attempts - 1:\n                        raise\n        return wrapper\n    return decorator\n\n@retry(max_attempts=3)\ndef fetch_data(url): ...\n\nTip: Use @functools.wraps(func) in your wrapper to preserve the original function's name and docstring.",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "design-patterns",
+        "functions"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 47,
+      "category": "Python/Pandas",
+      "question": "What are context managers and the 'with' statement?",
+      "answer": "Context managers handle setup and teardown of resources automatically, ensuring proper cleanup even if exceptions occur.\n\nBasic usage:\nwith open('file.txt', 'r') as f:\n    data = f.read()\n# File is automatically closed here, even if an error occurred\n\nWriting a context manager (class-based):\nclass DatabaseConnection:\n    def __enter__(self):\n        self.conn = create_connection()\n        return self.conn\n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.conn.close()\n        return False  # Do not suppress exceptions\n\nUsing contextlib (simpler):\nfrom contextlib import contextmanager\n\n@contextmanager\ndef db_connection():\n    conn = create_connection()\n    try:\n        yield conn\n    finally:\n        conn.close()\n\nwith db_connection() as conn:\n    conn.execute('SELECT 1')\n\nCommon built-in context managers:\n- open() for files\n- threading.Lock() for thread safety\n- tempfile.TemporaryDirectory() for temp dirs\n- unittest.mock.patch() for mocking\n\nUse cases in data engineering:\n- Database connections\n- File handling\n- Temporary resources\n- Transaction management",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "resource-management",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 48,
+      "category": "Python/Pandas",
+      "question": "How do pandas groupby and agg work together?",
+      "answer": "groupby splits data into groups, agg applies aggregation functions to each group.\n\nBasic usage:\ndf.groupby('department')['salary'].mean()\n\nMultiple aggregations:\ndf.groupby('department').agg(\n    avg_salary=('salary', 'mean'),\n    max_salary=('salary', 'max'),\n    headcount=('employee_id', 'count')\n)\n\nMultiple columns, multiple functions:\ndf.groupby('department').agg({\n    'salary': ['mean', 'median', 'std'],\n    'bonus': ['sum', 'mean']\n})\n\nCustom aggregation functions:\ndef salary_range(x):\n    return x.max() - x.min()\n\ndf.groupby('department').agg(\n    range=('salary', salary_range),\n    avg=('salary', 'mean')\n)\n\nGroupby with transform (keeps original shape):\ndf['dept_avg'] = df.groupby('department')['salary'].transform('mean')\n# Adds department average as a new column, one value per row\n\nGroupby with filter:\nhigh_salary_depts = df.groupby('department').filter(\n    lambda x: x['salary'].mean() > 100000\n)",
+      "difficulty": "medium",
+      "tags": [
+        "pandas",
+        "aggregation",
+        "data-analysis"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 49,
+      "category": "Python/Pandas",
+      "question": "When should you use pandas apply vs vectorized operations?",
+      "answer": "Vectorized operations: Use built-in pandas/numpy operations that work on entire columns at once. These are implemented in C and are much faster.\n\n# Vectorized (fast):\ndf['total'] = df['price'] * df['quantity']\ndf['upper_name'] = df['name'].str.upper()\ndf['year'] = pd.to_datetime(df['date']).dt.year\n\napply(): Runs a Python function row-by-row or column-by-column. Much slower because of Python overhead.\n\n# apply (slow):\ndf['total'] = df.apply(lambda row: row['price'] * row['quantity'], axis=1)\n\nPerformance comparison (1M rows):\n- Vectorized: ~5ms\n- apply: ~5000ms (1000x slower)\n\nWhen apply is acceptable:\n- Complex business logic that cannot be vectorized\n- Small DataFrames where performance does not matter\n- Calling external functions/APIs per row\n\nBetter alternatives to apply:\n- np.where() for conditional logic\n- np.select() for multiple conditions\n- pd.cut() / pd.qcut() for binning\n- .str accessor for string operations\n- .dt accessor for datetime operations\n\nRule: Always try vectorized first. Use apply only as a last resort.",
+      "difficulty": "medium",
+      "tags": [
+        "pandas",
+        "performance",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 50,
+      "category": "Python/Pandas",
+      "question": "How does pandas handle missing data (fillna, dropna, interpolate)?",
+      "answer": "Detecting missing data:\ndf.isnull().sum()  # Count NULLs per column\ndf.isnull().mean()  # Percentage of NULLs per column\n\ndropna(): Remove rows/columns with missing data\ndf.dropna()  # Drop rows with any NULL\ndf.dropna(subset=['email', 'phone'])  # Only check specific columns\ndf.dropna(thresh=3)  # Keep rows with at least 3 non-null values\n\nfillna(): Replace missing values\ndf['salary'].fillna(0)  # Fill with constant\ndf['salary'].fillna(df['salary'].mean())  # Fill with mean\ndf.fillna(method='ffill')  # Forward fill (use previous value)\ndf.fillna(method='bfill')  # Backward fill (use next value)\ndf.fillna({'salary': 0, 'name': 'Unknown'})  # Per-column fill\n\ninterpolate(): Estimate missing values\ndf['temperature'].interpolate(method='linear')  # Linear interpolation\ndf['value'].interpolate(method='time')  # Time-based interpolation\n\nBest practices:\n- Understand WHY data is missing before choosing a strategy\n- fillna with mean/median for numerical data\n- fillna with mode or 'Unknown' for categorical data\n- interpolate for time-series data\n- dropna when missing data is truly random and small percentage",
+      "difficulty": "easy",
+      "tags": [
+        "pandas",
+        "data-quality",
+        "missing-data"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 51,
+      "category": "Python/Pandas",
+      "question": "How do pivot_table and melt work in pandas?",
+      "answer": "pivot_table: Reshape from long to wide format (like Excel pivot tables).\n\n# Long format data:\n# date | product | sales\n# 2025-01 | A | 100\n# 2025-01 | B | 200\n\ndf.pivot_table(\n    values='sales',\n    index='date',\n    columns='product',\n    aggfunc='sum',\n    fill_value=0\n)\n# Result: date | A | B\n#         2025-01 | 100 | 200\n\nmelt: Reshape from wide to long format (unpivot).\n\n# Wide format:\n# date | product_A | product_B\n# 2025-01 | 100 | 200\n\ndf.melt(\n    id_vars=['date'],\n    value_vars=['product_A', 'product_B'],\n    var_name='product',\n    value_name='sales'\n)\n# Result: date | product | sales\n#         2025-01 | product_A | 100\n#         2025-01 | product_B | 200\n\nWhen to use:\n- pivot_table: Summarize data for reporting, create cross-tabs\n- melt: Normalize wide data for analysis, prepare for plotting\n\nThey are inverse operations: melt undoes pivot_table.",
+      "difficulty": "medium",
+      "tags": [
+        "pandas",
+        "reshaping",
+        "data-analysis"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 52,
+      "category": "Python/Pandas",
+      "question": "How do type hints work in Python?",
+      "answer": "Type hints annotate expected types for function arguments and return values. They do not enforce types at runtime but help with documentation, IDE support, and static analysis.\n\nBasic syntax:\ndef greet(name: str) -> str:\n    return f'Hello, {name}'\n\ndef process_data(items: list[dict], limit: int = 100) -> pd.DataFrame:\n    ...\n\nCommon type hints:\nfrom typing import Optional, Union\n\ndef find_user(user_id: int) -> Optional[dict]:  # Can return dict or None\n    ...\n\ndef parse(value: Union[str, int]) -> str:  # Accepts str or int\n    ...\n\n# Python 3.10+ pipe syntax:\ndef parse(value: str | int) -> str: ...\n\nAdvanced:\nfrom typing import TypeVar, Callable\n\nT = TypeVar('T')\ndef first(items: list[T]) -> T:  # Generic type\n    return items[0]\n\ndef apply_func(data: list, func: Callable[[int], bool]) -> list:\n    return [x for x in data if func(x)]\n\nTools: mypy for static type checking, pyright in VS Code.\n\nBest practice: Always add type hints to function signatures, especially in shared codebases and libraries.",
+      "difficulty": "easy",
+      "tags": [
+        "python",
+        "type-hints",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 53,
+      "category": "Python/Pandas",
+      "question": "What are exception handling best practices in Python?",
+      "answer": "Basic syntax:\ntry:\n    result = risky_operation()\nexcept SpecificError as e:\n    logger.error(f'Operation failed: {e}')\n    handle_error()\nexcept (TypeError, ValueError) as e:\n    handle_multiple_errors()\nelse:\n    # Runs only if no exception occurred\n    process_result(result)\nfinally:\n    # Always runs (cleanup)\n    cleanup_resources()\n\nBest practices:\n\n1. Catch specific exceptions, never bare except:\n   # Bad: except:\n   # Bad: except Exception:\n   # Good: except FileNotFoundError:\n\n2. Use logging, not print:\n   except ValueError as e:\n       logger.exception('Failed to parse value')  # Includes traceback\n\n3. Re-raise when you cannot handle:\n   except ConnectionError:\n       logger.error('DB connection failed')\n       raise  # Let caller handle it\n\n4. Custom exceptions for your domain:\n   class PipelineError(Exception): pass\n   class DataValidationError(PipelineError): pass\n\n5. Use context managers instead of try/finally for resources\n\n6. Fail fast: Validate inputs early, raise exceptions immediately\n\n7. Never silently swallow exceptions:\n   # Bad: except SomeError: pass",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "error-handling",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 54,
+      "category": "Python/Pandas",
+      "question": "What are lambda functions and when should you use them?",
+      "answer": "Lambda functions are small, anonymous functions defined with the lambda keyword.\n\nSyntax: lambda arguments: expression\n\nExamples:\nsquare = lambda x: x ** 2\nadd = lambda x, y: x + y\n\nCommon use cases:\n\n1. Sorting with custom key:\nusers.sort(key=lambda u: u['last_name'])\nsorted(items, key=lambda x: (x['priority'], x['date']))\n\n2. Pandas operations:\ndf['full_name'] = df.apply(lambda row: f\"{row['first']} {row['last']}\", axis=1)\ndf.assign(category=lambda d: d['score'].apply(lambda x: 'high' if x > 80 else 'low'))\n\n3. Filter/map:\neven_numbers = list(filter(lambda x: x % 2 == 0, numbers))\nsquared = list(map(lambda x: x**2, numbers))\n\nWhen NOT to use lambdas:\n- Complex logic (more than one expression) -- use a regular function\n- When you need a docstring or type hints\n- When assigning to a variable (use def instead, per PEP 8)\n\n# Prefer this:\ndef is_valid(x):\n    return x > 0 and x < 100\n\n# Over this:\nis_valid = lambda x: x > 0 and x < 100",
+      "difficulty": "easy",
+      "tags": [
+        "python",
+        "fundamentals",
+        "functions"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 55,
+      "category": "Python/Pandas",
+      "question": "What are the most useful collections in Python's collections module?",
+      "answer": "The collections module provides specialized container types:\n\n1. Counter: Count occurrences\nfrom collections import Counter\nwords = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple']\ncounts = Counter(words)\n# Counter({'apple': 3, 'banana': 2, 'cherry': 1})\ncounts.most_common(2)  # [('apple', 3), ('banana', 2)]\n\n2. defaultdict: Dict with default values for missing keys\nfrom collections import defaultdict\nby_dept = defaultdict(list)\nfor emp in employees:\n    by_dept[emp['dept']].append(emp['name'])\n# No KeyError if dept not seen before\n\ndefaultdict(int) -- defaults to 0 (great for counting)\ndefaultdict(set) -- defaults to empty set\n\n3. deque: Double-ended queue (fast append/pop from both ends)\nfrom collections import deque\nrecent = deque(maxlen=5)  # Keep last 5 items\nrecent.append('item1')\nrecent.appendleft('item0')  # O(1) vs O(n) for list.insert(0, x)\n\n4. namedtuple: Lightweight immutable objects\nfrom collections import namedtuple\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(3, 4)\nprint(p.x, p.y)  # Readable, memory-efficient\n\n5. OrderedDict: Dict that remembers insertion order (less needed since Python 3.7+ dicts are ordered).",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "data-structures",
+        "collections"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 56,
+      "category": "AWS Services",
+      "question": "What is AWS Glue and how is it used for ETL?",
+      "answer": "AWS Glue is a fully managed serverless ETL (Extract, Transform, Load) service.\n\nKey components:\n\n1. Glue Data Catalog:\n- Centralized metadata repository\n- Stores table definitions, schemas, and partition info\n- Acts as a Hive-compatible metastore\n- Used by Athena, Redshift Spectrum, and EMR\n\n2. Glue Crawlers:\n- Automatically discover and catalog data in S3, RDS, etc.\n- Infer schema and create table definitions\n- Can run on schedule or on-demand\n\n3. Glue ETL Jobs:\n- Serverless Spark jobs for data transformation\n- Written in Python (PySpark) or Scala\n- Support for both batch and streaming\n- Built-in transforms: mapping, filtering, joining\n\n4. Glue Studio:\n- Visual ETL job authoring interface\n- Drag-and-drop pipeline builder\n\nPricing: Pay per DPU-hour (Data Processing Unit), no idle costs.\n\nWhen to use Glue vs alternatives:\n- Simple ETL on S3 data: Glue\n- Complex orchestration: Glue + Step Functions or Airflow\n- Interactive queries: Athena (uses Glue Catalog)\n- Large-scale processing: EMR",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "etl",
+        "serverless"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 57,
+      "category": "AWS Services",
+      "question": "What is AWS Step Functions and how does it help with orchestration?",
+      "answer": "AWS Step Functions is a serverless orchestration service that coordinates multiple AWS services into workflows.\n\nKey concepts:\n- State Machine: Defines the workflow as a series of steps\n- States: Individual steps (Task, Choice, Parallel, Wait, Map, etc.)\n- ASL (Amazon States Language): JSON-based language for defining workflows\n\nState types:\n- Task: Execute work (Lambda, Glue, ECS, etc.)\n- Choice: Conditional branching (if/else logic)\n- Parallel: Run branches concurrently\n- Map: Iterate over a collection\n- Wait: Pause for a time period\n- Fail/Succeed: Terminal states\n\nBenefits:\n- Visual workflow monitoring\n- Built-in error handling and retries\n- Audit trail of every execution\n- No server management\n\nData engineering use case:\n1. Trigger Glue crawler to catalog new data\n2. Run Glue ETL job to transform data\n3. Check if transformation succeeded (Choice state)\n4. If success: trigger dbt run\n5. If failure: send SNS notification\n\nStep Functions vs Airflow:\n- Step Functions: AWS-native, serverless, simpler\n- Airflow: More features, cross-cloud, better for complex DAGs",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "orchestration",
+        "serverless"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 58,
+      "category": "AWS Services",
+      "question": "What is AWS ECS and how do containers help data engineers?",
+      "answer": "AWS ECS (Elastic Container Service) runs and manages Docker containers on AWS.\n\nKey concepts:\n- Task Definition: Blueprint for your container (image, CPU, memory, env vars)\n- Task: Running instance of a task definition\n- Service: Maintains desired number of running tasks\n- Cluster: Logical grouping of tasks/services\n\nLaunch types:\n- Fargate: Serverless, no EC2 management, pay per task\n- EC2: You manage the instances, more control and potentially cheaper\n\nWhy containers matter for data engineering:\n- Reproducibility: Same environment in dev, staging, and production\n- Isolation: Each pipeline runs in its own container\n- Scalability: Spin up multiple containers for parallel processing\n- Dependency management: No conflicts between Python versions or libraries\n\nCommon DE use cases:\n- Running Airflow workers as ECS tasks\n- Batch processing jobs triggered by Step Functions\n- dbt runs in containerized environments\n- Custom ETL scripts with specific dependencies\n\nExample workflow: S3 event -> Lambda -> ECS Fargate task (heavy processing) -> Write to Redshift",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "containers",
+        "infrastructure"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 59,
+      "category": "AWS Services",
+      "question": "What is AWS CDK and how does it compare to other IaC tools?",
+      "answer": "AWS CDK (Cloud Development Kit) lets you define cloud infrastructure using familiar programming languages (Python, TypeScript, Java, etc.).\n\nKey concepts:\n- Constructs: Building blocks (L1=CloudFormation, L2=opinionated defaults, L3=patterns)\n- Stacks: Unit of deployment (maps to CloudFormation stack)\n- App: Contains one or more stacks\n\nExample (Python):\nfrom aws_cdk import Stack, aws_s3 as s3\n\nclass DataLakeStack(Stack):\n    def __init__(self, scope, id):\n        super().__init__(scope, id)\n        bucket = s3.Bucket(self, 'RawData',\n            versioned=True,\n            lifecycle_rules=[s3.LifecycleRule(expiration=Duration.days(90))]\n        )\n\nCDK vs alternatives:\n- CDK: Real programming language, loops/conditions, AWS-only\n- Terraform: HCL language, multi-cloud, large ecosystem\n- CloudFormation: JSON/YAML, verbose, AWS-native\n- Pulumi: Like CDK but multi-cloud\n\nBenefits for data engineers:\n- Define S3 buckets, Glue jobs, Redshift clusters in Python\n- Reusable patterns for common DE infrastructure\n- Type safety and IDE autocomplete\n- Version control infrastructure alongside application code",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "infrastructure-as-code",
+        "devops"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 60,
+      "category": "AWS Services",
+      "question": "What is AWS Kinesis and when would you use it?",
+      "answer": "AWS Kinesis is a platform for real-time streaming data on AWS.\n\nKinesis services:\n\n1. Kinesis Data Streams:\n- Real-time data streaming\n- You manage shards (throughput units)\n- Retention: 24 hours to 365 days\n- Consumers: Lambda, KCL applications, Flink\n\n2. Kinesis Data Firehose:\n- Managed delivery to destinations (S3, Redshift, Elasticsearch)\n- Auto-scales, no shard management\n- Near real-time (60-second buffer minimum)\n- Can transform data with Lambda before delivery\n\n3. Kinesis Data Analytics:\n- SQL or Apache Flink on streaming data\n- Real-time analytics without managing infrastructure\n\nKinesis vs Kafka:\n- Kinesis: AWS-managed, easier setup, limited to AWS\n- Kafka (MSK): More features, higher throughput, cross-cloud compatible\n\nUse cases:\n- Clickstream analytics\n- IoT sensor data ingestion\n- Real-time log aggregation\n- Live dashboards\n\nCommon pattern: Producers -> Kinesis Data Streams -> Lambda (process) -> Kinesis Firehose -> S3 (data lake)",
+      "difficulty": "hard",
+      "tags": [
+        "aws",
+        "streaming",
+        "real-time"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 61,
+      "category": "AWS Services",
+      "question": "What is AWS Athena and when should you use it?",
+      "answer": "AWS Athena is a serverless interactive query service that lets you analyze data in S3 using standard SQL.\n\nKey features:\n- No infrastructure to manage\n- Pay per query ($5 per TB scanned)\n- Uses Presto/Trino engine under the hood\n- Integrates with Glue Data Catalog for metadata\n- Supports Parquet, ORC, JSON, CSV, Avro\n\nPerformance tips:\n- Use columnar formats (Parquet, ORC) -- up to 90% cost savings\n- Partition data by commonly filtered columns (date, region)\n- Use CTAS (CREATE TABLE AS SELECT) for result caching\n- Compress data (Snappy, GZIP)\n\nWhen to use Athena:\n- Ad-hoc queries on S3 data lake\n- Quick exploration without ETL setup\n- Cost-effective for infrequent queries\n- BI tool integration (via JDBC/ODBC)\n\nWhen NOT to use Athena:\n- High-concurrency workloads (use Redshift)\n- Sub-second latency needs\n- Complex transactions (use RDS)\n- Very frequent queries on same data (cheaper to load into Redshift)\n\nAthena vs Redshift:\n- Athena: Serverless, pay-per-query, great for ad-hoc\n- Redshift: Provisioned/serverless, better for heavy analytics workloads",
+      "difficulty": "easy",
+      "tags": [
+        "aws",
+        "serverless",
+        "analytics"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 62,
+      "category": "AWS Services",
+      "question": "What are the basics of AWS IAM for data engineers?",
+      "answer": "IAM (Identity and Access Management) controls who can do what in your AWS account.\n\nCore concepts:\n- Users: Individual people or services\n- Groups: Collection of users with shared permissions\n- Roles: Temporary permissions assumed by services or users\n- Policies: JSON documents defining permissions\n\nPolicy structure:\n{\n  \"Effect\": \"Allow\",\n  \"Action\": \"s3:GetObject\",\n  \"Resource\": \"arn:aws:s3:::my-bucket/*\"\n}\n\nKey principles:\n1. Least privilege: Grant only permissions needed\n2. Use roles, not long-term credentials\n3. Use groups to manage permissions (not per-user policies)\n4. Enable MFA for console access\n\nData engineering IAM patterns:\n- Glue jobs assume a role with S3 read/write + Catalog access\n- Lambda functions have execution roles scoped to their needs\n- Cross-account roles for accessing data in other AWS accounts\n- S3 bucket policies combined with IAM for fine-grained access\n\nCommon mistake: Using overly broad policies like 's3:*' on Resource '*'. Always scope down to specific buckets and actions.",
+      "difficulty": "easy",
+      "tags": [
+        "aws",
+        "security",
+        "iam"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 63,
+      "category": "AWS Services",
+      "question": "What are S3 storage classes and lifecycle policies?",
+      "answer": "S3 Storage Classes (cost vs access trade-off):\n\n1. S3 Standard: Frequently accessed, low latency, highest cost\n2. S3 Intelligent-Tiering: Auto-moves data between tiers based on access\n3. S3 Standard-IA (Infrequent Access): Lower cost, retrieval fee, 30-day minimum\n4. S3 One Zone-IA: Like Standard-IA but single AZ, even cheaper\n5. S3 Glacier Instant Retrieval: Archive with millisecond retrieval\n6. S3 Glacier Flexible Retrieval: Archive, minutes to hours retrieval\n7. S3 Glacier Deep Archive: Cheapest, 12-48 hour retrieval\n\nLifecycle Policies automate transitions between classes:\n{\n  \"Rules\": [{\n    \"Transitions\": [\n      {\"Days\": 30, \"StorageClass\": \"STANDARD_IA\"},\n      {\"Days\": 90, \"StorageClass\": \"GLACIER\"},\n      {\"Days\": 365, \"StorageClass\": \"DEEP_ARCHIVE\"}\n    ],\n    \"Expiration\": {\"Days\": 730}\n  }]\n}\n\nData engineering pattern:\n- Hot data (0-30 days): Standard -- active pipeline processing\n- Warm data (30-90 days): Standard-IA -- occasional reprocessing\n- Cold data (90+ days): Glacier -- compliance retention\n- Delete after retention period",
+      "difficulty": "easy",
+      "tags": [
+        "aws",
+        "s3",
+        "storage",
+        "cost-optimization"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 64,
+      "category": "AWS Services",
+      "question": "Redshift vs Athena vs RDS: How do you decide which to use?",
+      "answer": "Decision guide based on workload characteristics:\n\nRDS (PostgreSQL, MySQL, etc.):\n- OLTP: Transactional workloads (inserts, updates, deletes)\n- Row-based storage\n- Low-latency single-row lookups\n- Use for: Application backends, operational databases\n- Size: Up to ~64TB\n\nAthena:\n- Serverless SQL on S3\n- No infrastructure management\n- Pay per query ($5/TB scanned)\n- Use for: Ad-hoc exploration, infrequent queries, data lake queries\n- Best with: Parquet, partitioned data\n- Concurrency: Limited (default 20 concurrent queries)\n\nRedshift:\n- Columnar data warehouse\n- Provisioned or serverless options\n- Optimized for complex analytical queries\n- Use for: BI dashboards, regular reporting, heavy analytics\n- Concurrency: Better with concurrency scaling\n- Size: Petabyte scale\n\nDecision flow:\n1. Transactional/application data? -> RDS\n2. Ad-hoc queries on data lake, infrequent? -> Athena\n3. Regular analytics, dashboards, complex joins? -> Redshift\n4. Need both ad-hoc and regular? -> Redshift Spectrum (query S3 from Redshift)\n\nCost consideration: Athena is cheaper for sporadic use; Redshift is cheaper for heavy, regular workloads.",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "databases",
+        "architecture",
+        "decision-guide"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 65,
+      "category": "AWS Services",
+      "question": "What are VPC basics that data engineers should know?",
+      "answer": "VPC (Virtual Private Cloud) is your isolated network within AWS.\n\nKey components:\n- Subnets: Subdivisions of a VPC within an availability zone\n  - Public subnet: Has internet access via Internet Gateway\n  - Private subnet: No direct internet access (more secure)\n- Route Tables: Rules for network traffic routing\n- Security Groups: Virtual firewall for instances (stateful)\n- NACLs: Network-level firewall for subnets (stateless)\n- NAT Gateway: Allows private subnets to access internet (outbound only)\n\nWhy data engineers care about VPCs:\n\n1. Database access: RDS and Redshift run in private subnets\n2. Glue jobs: Need VPC connection to access private databases\n3. ECS tasks: Run in subnets with appropriate access\n4. VPC Endpoints: Access S3 and other services without going through internet\n\nCommon setup for data pipelines:\n- Databases in private subnets\n- Glue/ECS in private subnets with NAT Gateway\n- S3 VPC endpoint for private S3 access (no internet needed)\n- Security groups allowing traffic only between pipeline components\n\nCommon issue: Glue job cannot connect to RDS -- usually a security group or subnet configuration problem.",
+      "difficulty": "medium",
+      "tags": [
+        "aws",
+        "networking",
+        "infrastructure"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 66,
+      "category": "System Design",
+      "question": "What are common data warehouse architecture patterns?",
+      "answer": "Three main data warehouse architectures:\n\n1. Kimball (Bottom-Up):\n- Build dimensional models (star schemas) per business process\n- Data marts are integrated via conformed dimensions\n- Faster time to value, iterative approach\n- Structure: Source -> ETL -> Dimensional Data Warehouse -> BI\n\n2. Inmon (Top-Down):\n- Build enterprise-wide normalized data warehouse first\n- Data marts are derived from the central warehouse\n- More upfront planning, single source of truth\n- Structure: Source -> ETL -> 3NF Enterprise DW -> Data Marts -> BI\n\n3. Data Vault:\n- Hubs (business keys), Links (relationships), Satellites (descriptive data)\n- Highly auditable, handles change well\n- Good for regulated industries\n- Flexible but more complex to query\n\nModern approach (most common today):\n- ELT with a cloud warehouse (Snowflake, BigQuery)\n- Raw layer -> Staging -> dbt models -> Presentation layer\n- Medallion architecture: Bronze (raw) -> Silver (cleaned) -> Gold (business-ready)\n\nChoose based on: Team size, time constraints, regulatory needs, and data complexity.",
+      "difficulty": "hard",
+      "tags": [
+        "system-design",
+        "data-warehouse",
+        "architecture"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 67,
+      "category": "System Design",
+      "question": "What is the difference between Lambda and Kappa architecture?",
+      "answer": "Lambda Architecture:\n- Two parallel processing paths: batch layer + speed (real-time) layer\n- Batch layer: Processes all historical data periodically (complete, accurate)\n- Speed layer: Processes real-time data (fast, approximate)\n- Serving layer: Merges results from both layers for queries\n- Pros: Accurate + fast, handles late-arriving data\n- Cons: Complex (maintain two codebases), eventual consistency\n\nKappa Architecture:\n- Single processing path using streaming only\n- All data is treated as a stream (even historical reprocessing)\n- Reprocess by replaying the stream from the beginning\n- Pros: Simpler (one codebase), lower maintenance\n- Cons: Reprocessing can be expensive, harder for complex aggregations\n\nWhen to choose:\n- Lambda: Need both real-time and guaranteed-correct batch results\n- Kappa: Streaming-first, simpler system, can tolerate eventual consistency\n\nModern trend: Many teams start with batch-only (simplest), add streaming when latency requirements demand it. Tools like Apache Flink and Spark Structured Streaming blur the line between batch and stream.",
+      "difficulty": "hard",
+      "tags": [
+        "system-design",
+        "architecture",
+        "streaming",
+        "batch"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 68,
+      "category": "System Design",
+      "question": "What makes a data pipeline idempotent and why does it matter?",
+      "answer": "An idempotent pipeline produces the same result regardless of how many times it runs with the same input.\n\nWhy it matters:\n- Safe retries after failures\n- Enables backfilling historical data\n- Prevents duplicate records\n- Simplifies debugging and recovery\n\nStrategies for idempotency:\n\n1. DELETE + INSERT (full replace):\nDELETE FROM target WHERE date = '2025-01-15';\nINSERT INTO target SELECT * FROM source WHERE date = '2025-01-15';\n\n2. MERGE / UPSERT:\nINSERT INTO target (id, value)\nVALUES (1, 'new')\nON CONFLICT (id) DO UPDATE SET value = EXCLUDED.value;\n\n3. Partition overwrite:\n-- Overwrite entire partition instead of appending\nINSERT OVERWRITE TABLE target PARTITION (date='2025-01-15')\nSELECT * FROM source WHERE date = '2025-01-15';\n\n4. Checkpointing:\n-- Track processed files/offsets, skip already-processed data\n\nAnti-patterns (NOT idempotent):\n- Bare INSERT without deduplication\n- Appending without checking for existing data\n- Using auto-increment IDs without natural key checks\n- Operations depending on current timestamp for logic",
+      "difficulty": "medium",
+      "tags": [
+        "system-design",
+        "data-pipeline",
+        "best-practices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 69,
+      "category": "System Design",
+      "question": "What is the difference between a data lake, data warehouse, and data lakehouse?",
+      "answer": "Data Lake:\n- Stores raw data in any format (structured, semi-structured, unstructured)\n- Cheap object storage (S3, ADLS)\n- Schema-on-read\n- Good for: ML, data science, raw data preservation\n- Risk: Can become a 'data swamp' without governance\n\nData Warehouse:\n- Stores processed, structured data\n- Schema-on-write, optimized for queries\n- Expensive compute and storage\n- Good for: BI, reporting, analytics\n- Examples: Snowflake, BigQuery, Redshift\n\nData Lakehouse:\n- Combines lake storage with warehouse features\n- Open file formats (Parquet) on cheap storage (S3)\n- Adds ACID transactions, schema enforcement, and time travel\n- Supports both BI/SQL and ML workloads\n- Technologies: Delta Lake, Apache Iceberg, Apache Hudi\n\nLakehouse key features:\n- ACID transactions on data lake files\n- Schema enforcement and evolution\n- Time travel (query historical versions)\n- Support for streaming and batch\n- Direct BI tool access via SQL engines\n\nTrend: The lakehouse pattern is becoming the dominant modern architecture, reducing the need for separate lake and warehouse systems.",
+      "difficulty": "medium",
+      "tags": [
+        "system-design",
+        "architecture",
+        "data-lake",
+        "lakehouse"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 70,
+      "category": "System Design",
+      "question": "When would you choose microservices vs monolith for data systems?",
+      "answer": "Monolithic data system:\n- Single application/repo for the entire pipeline\n- Shared database, shared deployment\n- Pros: Simple to develop, test, and deploy initially\n- Cons: Hard to scale independently, one failure affects everything\n- Good for: Small teams, early-stage projects, simple pipelines\n\nMicroservices data system:\n- Each service handles one domain (ingestion, transformation, serving)\n- Independent deployment, scaling, and technology choices\n- Pros: Scale independently, fault isolation, team autonomy\n- Cons: Operational complexity, distributed debugging, network latency\n- Good for: Large teams, complex systems, varying scale requirements\n\nData-specific considerations:\n- Ingestion service: Handle different source types independently\n- Transformation service: Separate compute-heavy processing\n- Serving layer: Scale API/query layer independently\n- Orchestration: Central scheduler coordinates microservices\n\nPractical advice:\n- Start monolithic, split when you hit clear pain points\n- Common split: Ingestion (many sources) vs Transformation (heavy compute) vs Serving (query-optimized)\n- Use message queues (Kafka) to decouple services\n- Each service should own its data store",
+      "difficulty": "hard",
+      "tags": [
+        "system-design",
+        "architecture",
+        "microservices"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 71,
+      "category": "System Design",
+      "question": "What is backpressure in streaming systems?",
+      "answer": "Backpressure occurs when a downstream consumer cannot process data as fast as the upstream producer sends it.\n\nWithout handling backpressure:\n- Memory exhaustion (buffered messages grow unbounded)\n- System crashes or data loss\n- Cascading failures across the pipeline\n\nBackpressure handling strategies:\n\n1. Buffering:\n- Store excess messages in a queue (Kafka acts as a buffer)\n- Pros: Simple, absorbs temporary spikes\n- Cons: Limited by storage, adds latency\n\n2. Dropping:\n- Discard excess messages (acceptable for some use cases like metrics)\n- Pros: Protects system health\n- Cons: Data loss\n\n3. Rate limiting:\n- Producer slows down to match consumer speed\n- Pros: No data loss, no memory growth\n- Cons: Upstream latency increases\n\n4. Scaling:\n- Auto-scale consumers to match incoming load\n- Pros: Handles sustained load increases\n- Cons: Cost, scaling takes time\n\n5. Sampling:\n- Process only a percentage of messages\n- Pros: Bounded resource usage\n- Cons: Approximate results\n\nKafka handles backpressure naturally: consumers pull at their own pace, and Kafka retains messages for the configured retention period.",
+      "difficulty": "hard",
+      "tags": [
+        "system-design",
+        "streaming",
+        "reliability"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 72,
+      "category": "System Design",
+      "question": "What are event sourcing and CQRS?",
+      "answer": "Event Sourcing:\n- Store all changes as a sequence of immutable events, not just current state\n- Current state is derived by replaying events\n- Example events: OrderCreated, ItemAdded, PaymentProcessed, OrderShipped\n\nBenefits:\n- Complete audit trail\n- Can reconstruct state at any point in time\n- Enables event-driven architectures\n- Natural fit for streaming systems\n\nChallenges:\n- Event schema evolution\n- Replaying large event streams is slow\n- Eventual consistency\n\nCQRS (Command Query Responsibility Segregation):\n- Separate the write model (commands) from the read model (queries)\n- Write side: Optimized for capturing events/changes\n- Read side: Optimized for query patterns (denormalized views)\n\nCQRS + Event Sourcing together:\n1. Commands generate events (write side)\n2. Events are stored in an event store (Kafka, EventStore)\n3. Event handlers project events into read-optimized views\n4. Queries read from the optimized views\n\nData engineering relevance:\n- CDC is a form of event sourcing\n- Kafka topics as event logs\n- Materialized views in warehouses as read models\n- Separating ingestion (write) from serving (read) layers",
+      "difficulty": "hard",
+      "tags": [
+        "system-design",
+        "architecture",
+        "event-driven"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 73,
+      "category": "tasq.ai Specific",
+      "question": "What is tasq.ai and what do they do?",
+      "answer": "tasq.ai is a technology company that provides a NanoTasking platform for AI data services at scale.\n\nCore business:\n- Provides human-powered data services to improve AI/ML models\n- Specializes in data annotation, labeling, and enrichment\n- Supports AI companies with high-quality training data\n- Enables RLHF (Reinforcement Learning from Human Feedback) workflows\n\nKey offerings:\n- Data annotation and labeling at scale\n- Content moderation services\n- Product catalog enrichment\n- Human-in-the-loop AI validation\n- Quality assurance for AI outputs\n\nWhat makes tasq.ai different:\n- NanoTasking approach: Break complex tasks into small, manageable units\n- Scalable workforce management\n- Quality control mechanisms built into the platform\n- Integration with AI/ML pipelines\n\nIndustry context: As AI models grow more capable, the demand for high-quality human feedback and labeled data continues to increase, making platforms like tasq.ai critical infrastructure for the AI industry.",
+      "difficulty": "easy",
+      "tags": [
+        "tasq-ai",
+        "company-overview"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 74,
+      "category": "tasq.ai Specific",
+      "question": "What is the NanoTasking platform concept?",
+      "answer": "NanoTasking is an approach to breaking complex data tasks into small, atomic units that can be distributed to a large workforce.\n\nHow it works:\n1. A complex task (e.g., annotate 100K images) is decomposed into nano-tasks\n2. Each nano-task is small enough to be completed in seconds to minutes\n3. Tasks are distributed to qualified workers based on skill matching\n4. Results are aggregated with quality control mechanisms\n5. Final output is delivered back to the client\n\nBenefits:\n- Scalability: Thousands of workers can work in parallel\n- Quality: Small tasks have higher accuracy than complex ones\n- Speed: Massive parallelism enables fast turnaround\n- Cost efficiency: Pay per task, scale up/down as needed\n- Flexibility: Different task types for different AI needs\n\nQuality control mechanisms:\n- Consensus (multiple workers annotate the same item)\n- Gold standard tasks (known answers mixed in for calibration)\n- Worker quality scoring and routing\n- Automated validation rules\n\nExample: Instead of asking one person to review a full document, split it into paragraph-level sentiment tasks distributed across many workers.",
+      "difficulty": "medium",
+      "tags": [
+        "tasq-ai",
+        "platform",
+        "nanotasking"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 75,
+      "category": "tasq.ai Specific",
+      "question": "What is RLHF (Reinforcement Learning from Human Feedback)?",
+      "answer": "RLHF is a technique used to align AI models with human preferences and values.\n\nThe RLHF process:\n\n1. Supervised Fine-Tuning (SFT):\n   - Train a base model on curated demonstration data\n   - Humans write ideal responses for given prompts\n\n2. Reward Model Training:\n   - Model generates multiple responses to the same prompt\n   - Human annotators rank responses from best to worst\n   - A reward model learns to predict human preferences\n\n3. Reinforcement Learning (PPO):\n   - The language model is fine-tuned using the reward model\n   - Model learns to generate responses that score highly\n   - PPO (Proximal Policy Optimization) prevents too much deviation\n\nWhy it matters:\n- Makes AI outputs more helpful, harmless, and honest\n- Critical for ChatGPT, Claude, and other assistants\n- Requires large volumes of high-quality human feedback\n\nWhere tasq.ai fits:\n- Providing the human annotation workforce at scale\n- Managing quality of preference rankings\n- Handling diverse task types (comparison, rating, classification)\n- Scaling annotation as model training demands grow\n\nChallenge: Annotator disagreement and subjectivity require robust quality frameworks.",
+      "difficulty": "hard",
+      "tags": [
+        "tasq-ai",
+        "rlhf",
+        "machine-learning",
+        "ai-training"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 76,
+      "category": "tasq.ai Specific",
+      "question": "What is the human-in-the-loop approach to AI?",
+      "answer": "Human-in-the-loop (HITL) integrates human judgment into AI/ML workflows at various stages.\n\nStages where humans participate:\n\n1. Training data creation:\n   - Labeling and annotating training datasets\n   - Creating ground truth for supervised learning\n\n2. Model validation:\n   - Reviewing model predictions for accuracy\n   - Identifying failure modes and edge cases\n\n3. Active learning:\n   - Model flags low-confidence predictions for human review\n   - Human labels are fed back to improve the model\n   - Creates a virtuous cycle of improvement\n\n4. Production monitoring:\n   - Spot-checking model outputs in production\n   - Escalating edge cases to human reviewers\n\nBenefits:\n- Higher accuracy than fully automated systems\n- Catches errors AI cannot detect\n- Builds trust with end users\n- Enables continuous model improvement\n\nChallenges:\n- Latency (humans are slower than machines)\n- Cost of human labor\n- Scalability constraints\n- Maintaining annotator quality and consistency\n\nThe NanoTasking platform addresses these challenges by making human review scalable and cost-effective through task decomposition and workforce management.",
+      "difficulty": "medium",
+      "tags": [
+        "tasq-ai",
+        "hitl",
+        "machine-learning"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 77,
+      "category": "tasq.ai Specific",
+      "question": "What are the challenges of data annotation at scale?",
+      "answer": "Data annotation at scale involves labeling large volumes of data for AI/ML training. Key challenges:\n\n1. Quality vs Speed:\n   - Fast annotation often sacrifices accuracy\n   - High quality requires clear guidelines, training, and QA\n   - Solution: Multi-annotator consensus, gold standard checks\n\n2. Annotator Management:\n   - Recruiting, training, and retaining skilled annotators\n   - Handling different skill levels and expertise areas\n   - Managing distributed global workforce\n\n3. Task Ambiguity:\n   - Subjective tasks have inherent disagreement\n   - Edge cases are hard to define in guidelines\n   - Solution: Detailed annotation guides, regular calibration sessions\n\n4. Scale and Throughput:\n   - ML models may need millions of labeled examples\n   - Tight deadlines for model training cycles\n   - Solution: NanoTasking decomposition, parallel workforce\n\n5. Data Security:\n   - Sensitive data requires access controls\n   - PII handling and compliance (GDPR)\n   - Secure annotation environments\n\n6. Cost Management:\n   - Balancing annotation quality with budget\n   - Pricing per task type and complexity\n\n7. Schema Evolution:\n   - Annotation requirements change as models improve\n   - Re-labeling existing data when categories change",
+      "difficulty": "medium",
+      "tags": [
+        "tasq-ai",
+        "data-annotation",
+        "challenges"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 78,
+      "category": "tasq.ai Specific",
+      "question": "What are the challenges of content moderation for AI?",
+      "answer": "Content moderation ensures AI-generated or user-generated content meets safety and quality standards.\n\nKey challenges:\n\n1. Scale:\n   - Millions of pieces of content generated daily\n   - Real-time moderation requirements\n   - Solution: AI-first with human review for edge cases\n\n2. Nuance and Context:\n   - Sarcasm, cultural references, context-dependent meaning\n   - Same content may be acceptable in one context but not another\n   - Requires human judgment for ambiguous cases\n\n3. Evolving Threats:\n   - New harmful content patterns emerge constantly\n   - Adversarial users trying to bypass filters\n   - Requires continuous model retraining\n\n4. Multilingual Content:\n   - Different languages, idioms, and cultural norms\n   - Need annotators fluent in each language\n\n5. Annotator Well-being:\n   - Reviewing harmful content affects mental health\n   - Requires rotation, counseling, and support systems\n\n6. Consistency:\n   - Different moderators may judge differently\n   - Need clear policies and regular calibration\n\n7. False Positives/Negatives:\n   - Over-moderation frustrates users\n   - Under-moderation allows harmful content\n   - Finding the right threshold is critical\n\nThe hybrid approach (AI + human review) is the industry standard for content moderation at scale.",
+      "difficulty": "medium",
+      "tags": [
+        "tasq-ai",
+        "content-moderation",
+        "ai-safety"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 79,
+      "category": "tasq.ai Specific",
+      "question": "What is product catalog enrichment and why is it important?",
+      "answer": "Product catalog enrichment is the process of enhancing product data with accurate, complete, and structured information.\n\nWhat gets enriched:\n- Product titles and descriptions\n- Category classification and taxonomy mapping\n- Attribute extraction (color, size, material, brand)\n- Image tagging and quality assessment\n- Multilingual translations\n- Related product suggestions\n\nWhy it matters:\n- Search accuracy: Better attributes = better search results\n- Conversion: Rich descriptions increase purchase likelihood\n- Recommendations: Accurate categories improve ML recommendations\n- Compliance: Correct product info for regulatory requirements\n\nChallenges at scale:\n- Millions of SKUs across categories\n- Inconsistent data from different suppliers\n- Multilingual catalogs\n- Continuous updates as products change\n\nHow AI + human-in-the-loop helps:\n1. AI extracts attributes from titles/images automatically\n2. Low-confidence extractions are routed to human reviewers\n3. Human corrections feed back into the AI model\n4. Quality improves over time, reducing human intervention\n\nExample: An e-commerce site with 10M products uses AI to classify 90% correctly, and routes the remaining 10% to human annotators via a NanoTasking platform.",
+      "difficulty": "easy",
+      "tags": [
+        "tasq-ai",
+        "catalog-enrichment",
+        "e-commerce"
+      ],
+      "last_reviewed": null,
+      "next_review": null,
+      "confidence": 0,
+      "ease_factor": 2.5,
+      "interval": 0,
+      "repetitions": 0
+    },
+    {
+      "id": 80,
+      "category": "tasq.ai Specific",
+      "question": "What is the tasq.ai tech stack and how do the components work together?",
+      "answer": "tasq.ai tech stack components and their roles:\n\nInfrastructure:\n- AWS: Cloud infrastructure provider\n- Kubernetes (K8s): Container orchestration for microservices\n- Manages scaling, deployment, and service discovery\n\nData Layer:\n- PostgreSQL: Primary relational database for structured data\n  - Task definitions, user data, results, metadata\n- Redis: In-memory data store for caching and real-time features\n  - Task queues, session management, rate limiting\n\nOrchestration and Transformation:\n- Airflow: Workflow orchestration for data pipelines\n  - Schedules ETL jobs, manages dependencies\n  - Monitors pipeline health and SLAs\n- dbt: Data transformation layer\n  - Transforms raw data into analytics-ready models\n  - Tests data quality, documents data lineage\n\nAI/ML Layer:\n- LangGraph: Framework for building AI agent workflows\n  - Orchestrates LLM-based processing chains\n  - Manages state and branching in AI pipelines\n\nHow they work together:\n1. Tasks are created and stored in PostgreSQL\n2. Redis manages task distribution queues\n3. Kubernetes scales workers based on demand\n4. Airflow orchestrates data movement pipelines\n5. dbt transforms raw task results into analytics models\n6. LangGraph powers AI-assisted quality checks and automation\n\nThis stack reflects modern data engineering best practices: managed infrastructure, separation of orchestration and transformation, and hybrid AI/human workflows.",
+      "difficulty": "hard",
+      "tags": [
+        "tasq-ai",
+        "tech-stack",
+        "architecture"
+      ],
       "last_reviewed": null,
       "next_review": null,
       "confidence": 0,
@@ -214,13 +1436,14 @@
   "metadata": {
     "version": "1.0",
     "created": "2026-02-12",
-    "total_cards": 15,
+    "total_cards": 80,
     "categories": [
       "Data Engineering Concepts",
       "SQL Concepts",
       "Python/Pandas",
       "AWS Services",
-      "System Design"
+      "System Design",
+      "tasq.ai Specific"
     ]
   }
 }

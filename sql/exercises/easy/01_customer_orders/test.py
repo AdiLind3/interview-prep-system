@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 # Add utils to path
-sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+sys.path.append(str(Path(__file__).parent.parent.parent.parent.parent))
 from utils.database import SQLiteHelper
 
 

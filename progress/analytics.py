@@ -3,6 +3,7 @@
 
 import json
 import sys
+import logging
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List
@@ -12,6 +13,7 @@ from rich.panel import Panel
 from rich import box
 from rich.progress import Progress, BarColumn, TextColumn
 
+logger = logging.getLogger(__name__)
 console = Console()
 
 
@@ -33,12 +35,12 @@ class ProgressTracker:
             console.print(f"[red]Error: Tracker file not found: {self.tracker_file}[/red]")
             sys.exit(1)
 
-        with open(self.tracker_file, 'r') as f:
+        with open(self.tracker_file, 'r', encoding='utf-8') as f:
             return json.load(f)
 
     def save_data(self):
         """Save progress data to JSON."""
-        with open(self.tracker_file, 'w') as f:
+        with open(self.tracker_file, 'w', encoding='utf-8') as f:
             json.dump(self.data, f, indent=2)
 
     def get_days_until_interview(self) -> int:
@@ -67,7 +69,7 @@ class ProgressTracker:
         overall = self.get_overall_progress()
 
         # Header
-        title = f"[bold cyan]📊 Interview Prep Progress Report[/bold cyan]\n"
+        title = f"[bold cyan]Interview Prep Progress Report[/bold cyan]\n"
         if days_left > 0:
             title += f"[dim]Interview in {days_left} days[/dim]"
         elif days_left == 0:
@@ -85,47 +87,55 @@ class ProgressTracker:
 
         # SQL Exercises
         sql = self.data['sql_exercises']
-        console.print("[bold cyan]📝 SQL Exercises[/bold cyan]")
+        console.print("[bold cyan]SQL Exercises[/bold cyan]")
         console.print(f"   Progress: {sql['completed']}/{sql['total']} "
                      f"({sql['completed']/sql['total']*100:.0f}%)")
 
         for diff, stats in sql['by_difficulty'].items():
             pct = (stats['completed'] / stats['total'] * 100) if stats['total'] > 0 else 0
-            status = "✅" if pct == 100 else "⚠️" if pct >= 50 else "❌"
+            status = "[green]DONE[/green]" if pct == 100 else "[yellow]WIP[/yellow]" if pct >= 50 else "[red]TODO[/red]"
             console.print(f"   {status} {diff.capitalize()}: {stats['completed']}/{stats['total']} ({pct:.0f}%)")
 
         console.print()
 
         # Python Exercises
         python = self.data['python_exercises']
-        console.print("[bold cyan]🐍 Python Exercises[/bold cyan]")
+        console.print("[bold cyan]Python Exercises[/bold cyan]")
         console.print(f"   Progress: {python['completed']}/{python['total']} "
                      f"({python['completed']/python['total']*100:.0f}%)")
 
         for category, stats in python['by_category'].items():
             pct = (stats['completed'] / stats['total'] * 100) if stats['total'] > 0 else 0
-            status = "✅" if pct == 100 else "⚠️" if pct >= 50 else "❌"
+            status = "[green]DONE[/green]" if pct == 100 else "[yellow]WIP[/yellow]" if pct >= 50 else "[red]TODO[/red]"
             console.print(f"   {status} {category.capitalize()}: {stats['completed']}/{stats['total']} ({pct:.0f}%)")
 
         console.print()
 
         # Flashcards
         fc = self.data['flashcards']
-        console.print("[bold cyan]🎴 Flashcards[/bold cyan]")
+        console.print("[bold cyan]Flashcards[/bold cyan]")
+        console.print(f"   Total Cards: {fc.get('total_cards', 'N/A')}")
         console.print(f"   Total Reviews: {fc['total_reviews']}")
         console.print(f"   Cards Mastered: {fc['cards_mastered']}")
         console.print(f"   Avg Confidence: {fc['average_confidence']:.1f}/5")
 
         console.print()
 
+        # System Design
+        if 'system_design' in self.data:
+            sd = self.data['system_design']
+            console.print("[bold cyan]System Design[/bold cyan]")
+            console.print(f"   Reviewed: {sd['scenarios_reviewed']}/{sd['total_scenarios']}")
+            console.print()
+
         # Mock Interviews
-        console.print("[bold cyan]🎤 Mock Interviews[/bold cyan]")
+        console.print("[bold cyan]Mock Interviews[/bold cyan]")
         console.print(f"   Completed: {len(self.data['mock_interviews'])}")
 
         console.print()
 
         # Time Investment
-        console.print("[bold cyan]⏱️  Time Investment[/bold cyan]")
+        console.print("[bold cyan]Time Investment[/bold cyan]")
         hours = self.data['time_spent_minutes'] / 60
         console.print(f"   Total: {hours:.1f} hours ({self.data['time_spent_minutes']} minutes)")
 
@@ -138,12 +148,12 @@ class ProgressTracker:
         """Print a visual progress bar."""
         filled = int(percentage / 10)
         empty = 10 - filled
-        bar = "█" * filled + "░" * empty
-        console.print(f"   {bar} {percentage:.1f}%")
+        bar = "=" * filled + "-" * empty
+        console.print(f"   [{bar}] {percentage:.1f}%")
 
     def _display_recommendations(self):
         """Display personalized recommendations."""
-        console.print("[bold yellow]🎯 Next Steps:[/bold yellow]")
+        console.print("[bold yellow]Next Steps:[/bold yellow]")
 
         recommendations = []
 
@@ -167,8 +177,13 @@ class ProgressTracker:
         if len(self.data['mock_interviews']) < 2:
             recommendations.append("Do at least 2 mock interviews")
 
+        # Check system design
+        if 'system_design' in self.data:
+            if self.data['system_design']['scenarios_reviewed'] < 3:
+                recommendations.append("Review at least 3 system design scenarios")
+
         if not recommendations:
-            console.print("   [green]✅ Great progress! Keep refining your skills![/green]")
+            console.print("   [green]Great progress! Keep refining your skills![/green]")
         else:
             for i, rec in enumerate(recommendations, 1):
                 console.print(f"   {i}. {rec}")
@@ -178,15 +193,15 @@ class ProgressTracker:
         # Days until interview
         days_left = self.get_days_until_interview()
         if days_left > 0:
-            console.print(f"[bold]💪 You've got {days_left} days to prepare. Stay focused![/bold]")
+            console.print(f"[bold]You have {days_left} days to prepare. Stay focused![/bold]")
         elif days_left == 0:
-            console.print(f"[bold green]🚀 Today's the day! You've got this![/bold green]")
+            console.print(f"[bold green]Today is the day! You have got this![/bold green]")
 
     def display_detailed_stats(self):
         """Display detailed statistics in table format."""
         console.clear()
         console.print(Panel.fit(
-            "[bold cyan]📈 Detailed Statistics[/bold cyan]",
+            "[bold cyan]Detailed Statistics[/bold cyan]",
             border_style="cyan"
         ))
         console.print()
@@ -202,6 +217,25 @@ class ProgressTracker:
         console.print(sql_table)
         console.print()
 
+        # Python Categories Table
+        py_table = Table(title="Python Exercise Progress", box=box.ROUNDED)
+        py_table.add_column("Category", style="cyan")
+        py_table.add_column("Completed", justify="center")
+        py_table.add_column("Total", justify="center")
+        py_table.add_column("Percentage", justify="center")
+
+        for category, stats in self.data['python_exercises']['by_category'].items():
+            pct = (stats['completed'] / stats['total'] * 100) if stats['total'] > 0 else 0
+            py_table.add_row(
+                category.replace('_', ' ').title(),
+                str(stats['completed']),
+                str(stats['total']),
+                f"{pct:.0f}%"
+            )
+
+        console.print(py_table)
+        console.print()
+
         # Flashcard Categories Table
         fc_table = Table(title="Flashcard Progress by Category", box=box.ROUNDED)
         fc_table.add_column("Category", style="cyan")
@@ -211,6 +245,25 @@ class ProgressTracker:
             fc_table.add_row(category, str(count))
 
         console.print(fc_table)
+        console.print()
+
+        # Daily Logs
+        if self.data['daily_logs']:
+            log_table = Table(title="Recent Study Sessions", box=box.ROUNDED)
+            log_table.add_column("Date", style="cyan")
+            log_table.add_column("Type", justify="center")
+            log_table.add_column("Duration (min)", justify="center")
+            log_table.add_column("Details")
+
+            for log in self.data['daily_logs'][-10:]:
+                log_table.add_row(
+                    log['date'][:16],
+                    log['type'],
+                    str(log['duration_minutes']),
+                    log.get('details', '')
+                )
+
+            console.print(log_table)
 
     def log_study_session(self, session_type: str, duration_minutes: int, details: str = ""):
         """Log a study session.
@@ -231,12 +284,15 @@ class ProgressTracker:
         self.data['time_spent_minutes'] += duration_minutes
         self.save_data()
 
-        console.print(f"[green]✅ Logged {duration_minutes} minute {session_type} session[/green]")
+        console.print(f"[green]Logged {duration_minutes} minute {session_type} session[/green]")
+        logger.info("Logged %d minute %s session", duration_minutes, session_type)
 
 
 def main():
     """Main entry point."""
     import argparse
+
+    logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser(description="Interview Prep Progress Tracker")
     parser.add_argument(

@@ -1,0 +1,14 @@
+[
+  {
+    "product_id": 1,
+    "average_price": 6.96
+  },
+  {
+    "product_id": 2,
+    "average_price": 16.96
+  },
+  {
+    "product_id": 3,
+    "average_price": 0
+  }
+]

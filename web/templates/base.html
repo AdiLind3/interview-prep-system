@@ -50,16 +50,15 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Mobile-friendly navigation -->
-    <nav class="bg-blue-600 text-white shadow-lg">
+    <nav class="bg-blue-600 text-white shadow-lg" x-data="{ mobileMenuOpen: false }">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <a href="/" class="text-xl font-bold">🚀 Interview Prep</a>
+                <a href="/" class="text-xl font-bold">Interview Prep</a>
 
                 <!-- Mobile menu button -->
                 <button
                     @click="mobileMenuOpen = !mobileMenuOpen"
                     class="md:hidden"
-                    x-data="{ mobileMenuOpen: false }"
                 >
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -80,7 +79,6 @@
             <!-- Mobile menu -->
             <div
                 x-show="mobileMenuOpen"
-                x-data="{ mobileMenuOpen: false }"
                 class="md:hidden mt-4 space-y-2"
                 x-cloak
             >
@@ -102,7 +100,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-sm">Built with ❤️ and Claude Code | Interview Prep System 2026</p>
+            <p class="text-sm">Interview Prep System 2026 | Built with Claude Code</p>
         </div>
     </footer>
 

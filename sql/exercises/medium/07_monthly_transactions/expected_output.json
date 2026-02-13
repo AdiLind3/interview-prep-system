@@ -1,0 +1,34 @@
+[
+  {
+    "month": "2024-05",
+    "country": "DE",
+    "trans_count": 2,
+    "approved_count": 1,
+    "trans_total_amount": 2500,
+    "approved_total_amount": 2000
+  },
+  {
+    "month": "2024-05",
+    "country": "US",
+    "trans_count": 3,
+    "approved_count": 2,
+    "trans_total_amount": 5000,
+    "approved_total_amount": 3000
+  },
+  {
+    "month": "2024-06",
+    "country": "DE",
+    "trans_count": 1,
+    "approved_count": 1,
+    "trans_total_amount": 3000,
+    "approved_total_amount": 3000
+  },
+  {
+    "month": "2024-06",
+    "country": "US",
+    "trans_count": 2,
+    "approved_count": 1,
+    "trans_total_amount": 2300,
+    "approved_total_amount": 1500
+  }
+]
