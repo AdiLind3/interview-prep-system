@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Flashcards - Interview Prep{% endblock %}
+
+{% block content %}
+<div x-data="flashcardApp()" x-init="init()" class="space-y-6">
+    <!-- Header -->
+    <div class="text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">🎴 Flashcard Study</h1>
+        <p class="text-gray-600">Spaced repetition learning system</p>
+    </div>
+
+    <!-- Category selection (before starting) -->
+    <div x-show="!studyStarted" class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Select Category</h2>
+
+        <div class="space-y-3">
+            <button
+                @click="selectedCategory = null; startStudy()"
+                class="w-full bg-purple-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-left"
+            >
+                <div class="flex items-center justify-between">
+                    <span>📚 All Categories</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </button>
+
+            {% for category in categories %}
+            <button
+                @click="selectedCategory = '{{ category }}'; startStudy()"
+                class="w-full bg-white border-2 border-gray-300 text-gray-800 px-6 py-4 rounded-lg font-semibold hover:border-blue-500 hover:bg-blue-50 transition-colors text-left"
+            >
+                <div class="flex items-center justify-between">
+                    <span>{{ category }}</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Study session -->
+    <div x-show="studyStarted && !sessionComplete">
+        <!-- Progress -->
+        <div class="card">
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Card <span x-text="currentIndex + 1"></span> of <span x-text="cards.length"></span></span>
+                <span x-text="currentCard?.category"></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" :style="`width: ${((currentIndex + 1) / cards.length) * 100}%`"></div>
+            </div>
+        </div>
+
+        <!-- Card -->
+        <div class="card min-h-[300px] relative" x-show="currentCard">
+            <!-- Category badge -->
+            <div class="absolute top-4 right-4">
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    <span x-text="currentCard?.category"></span>
+                </span>
+            </div>
+
+            <!-- Question side -->
+            <div x-show="!showAnswer" class="text-center pt-8">
+                <div class="text-6xl mb-6">🤔</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-8" x-text="currentCard?.question"></h3>
+
+                <button
+                    @click="showAnswer = true"
+                    class="btn-primary w-full sm:w-auto"
+                >
+                    Show Answer →
+                </button>
+            </div>
+
+            <!-- Answer side -->
+            <div x-show="showAnswer" class="pt-4">
+                <div class="text-sm font-semibold text-gray-600 mb-2">Question:</div>
+                <div class="text-lg font-bold text-gray-800 mb-4" x-text="currentCard?.question"></div>
+
+                <div class="text-sm font-semibold text-gray-600 mb-2">Answer:</div>
+                <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
+                    <div class="prose prose-sm max-w-none" x-html="marked.parse(currentCard?.answer || '')"></div>
+                </div>
+
+                <!-- Rating buttons -->
+                <div class="text-sm font-semibold text-gray-600 mb-3 text-center">How well did you know this?</div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button
+                        @click="rateCard(0)"
+                        class="bg-red-100 border-2 border-red-300 text-red-800 px-4 py-3 rounded-lg font-semibold hover:bg-red-200 transition-colors"
+                    >
+                        😞 Forgot
+                    </button>
+                    <button
+                        @click="rateCard(2)"
+                        class="bg-orange-100 border-2 border-orange-300 text-orange-800 px-4 py-3 rounded-lg font-semibold hover:bg-orange-200 transition-colors"
+                    >
+                        😕 Hard
+                    </button>
+                    <button
+                        @click="rateCard(3)"
+                        class="bg-yellow-100 border-2 border-yellow-300 text-yellow-800 px-4 py-3 rounded-lg font-semibold hover:bg-yellow-200 transition-colors"
+                    >
+                        🙂 Good
+                    </button>
+                    <button
+                        @click="rateCard(5)"
+                        class="bg-green-100 border-2 border-green-300 text-green-800 px-4 py-3 rounded-lg font-semibold hover:bg-green-200 transition-colors"
+                    >
+                        😄 Perfect!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- No cards message -->
+        <div x-show="cards.length === 0" class="card text-center py-12">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-2">No Cards Due!</h3>
+            <p class="text-gray-600 mb-6">You've reviewed all your cards for today. Great job!</p>
+            <a href="/" class="btn-primary inline-block">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Session complete -->
+    <div x-show="sessionComplete" class="card text-center py-12">
+        <div class="text-6xl mb-4">🎉</div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Session Complete!</h2>
+
+        <div class="bg-blue-50 rounded-lg p-6 mb-6 max-w-md mx-auto">
+            <div class="text-4xl font-bold text-blue-600 mb-2" x-text="stats.total"></div>
+            <div class="text-gray-600">Cards Reviewed</div>
+
+            <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <div class="text-2xl font-bold text-green-600" x-text="stats.perfect"></div>
+                    <div class="text-gray-600">Perfect</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-yellow-600" x-text="stats.good"></div>
+                    <div class="text-gray-600">Good</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <button @click="resetSession()" class="btn-primary">Study More Cards</button>
+            <a href="/" class="btn-secondary block sm:inline-block">← Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function flashcardApp() {
+    return {
+        selectedCategory: null,
+        studyStarted: false,
+        sessionComplete: false,
+        cards: [],
+        currentIndex: 0,
+        currentCard: null,
+        showAnswer: false,
+        stats: {
+            total: 0,
+            perfect: 0,
+            good: 0
+        },
+
+        async init() {
+            // Initialize marked for markdown rendering
+            if (typeof marked !== 'undefined') {
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true
+                });
+            }
+        },
+
+        async startStudy() {
+            this.studyStarted = true;
+
+            // Fetch cards
+            let url = '/api/flashcards/due';
+            if (this.selectedCategory) {
+                url += `?category=${encodeURIComponent(this.selectedCategory)}`;
+            }
+
+            const response = await fetch(url);
+            const data = await response.json();
+            this.cards = data.cards;
+
+            if (this.cards.length > 0) {
+                this.currentCard = this.cards[0];
+            }
+        },
+
+        async rateCard(quality) {
+            // Send review to backend
+            await fetch('/api/flashcards/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    card_id: this.currentCard.id,
+                    quality: quality
+                })
+            });
+
+            // Update stats
+            this.stats.total++;
+            if (quality === 5) {
+                this.stats.perfect++;
+            } else if (quality >= 3) {
+                this.stats.good++;
+            }
+
+            // Move to next card
+            this.currentIndex++;
+            this.showAnswer = false;
+
+            if (this.currentIndex < this.cards.length) {
+                this.currentCard = this.cards[this.currentIndex];
+            } else {
+                this.sessionComplete = true;
+            }
+        },
+
+        resetSession() {
+            this.studyStarted = false;
+            this.sessionComplete = false;
+            this.currentIndex = 0;
+            this.showAnswer = false;
+            this.stats = { total: 0, perfect: 0, good: 0 };
+        }
+    }
+}
+</script>
+{% endblock %}

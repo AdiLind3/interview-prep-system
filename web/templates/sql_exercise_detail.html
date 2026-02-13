@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exercise.name }} - SQL Exercise{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div>
+        <div class="mb-2">
+            <a href="/exercises/sql" class="text-blue-600 hover:text-blue-800">← Back to SQL Exercises</a>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-800">{{ exercise.name }}</h1>
+        {% if exercise.difficulty == 'easy' %}
+            <span class="inline-block mt-2 bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded">Easy</span>
+        {% elif exercise.difficulty == 'medium' %}
+            <span class="inline-block mt-2 bg-yellow-100 text-yellow-800 text-sm font-semibold px-3 py-1 rounded">Medium</span>
+        {% else %}
+            <span class="inline-block mt-2 bg-red-100 text-red-800 text-sm font-semibold px-3 py-1 rounded">Hard</span>
+        {% endif %}
+    </div>
+
+    <!-- Problem statement -->
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">📋 Problem</h2>
+        <div class="prose max-w-none" id="problem-content"></div>
+    </div>
+
+    <!-- Schema -->
+    {% if exercise.schema %}
+    <div class="card">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">🗄️ Schema</h2>
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto"><code class="language-sql">{{ exercise.schema }}</code></pre>
+    </div>
+    {% endif %}
+
+    <!-- Sample data -->
+    {% if exercise.sample_data %}
+    <details class="card cursor-pointer">
+        <summary class="text-xl font-bold text-gray-800 mb-4">📊 Sample Data (click to expand)</summary>
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4"><code class="language-sql">{{ exercise.sample_data }}</code></pre>
+    </details>
+    {% endif %}
+
+    <!-- Note -->
+    <div class="card bg-blue-50 border-2 border-blue-200">
+        <div class="flex items-start space-x-3">
+            <div class="text-2xl">💡</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-2">How to solve this:</h3>
+                <ol class="text-gray-700 text-sm space-y-1 list-decimal list-inside">
+                    <li>Read the problem carefully and understand requirements</li>
+                    <li>Open your CLI and navigate to the exercise folder</li>
+                    <li>Edit <code class="bg-white px-2 py-1 rounded">template.sql</code> with your solution</li>
+                    <li>Run the test: <code class="bg-white px-2 py-1 rounded">python sql/tests/test_runner.py {{ exercise.id }}</code></li>
+                    <li>Iterate until all tests pass!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Render markdown problem statement
+document.addEventListener('DOMContentLoaded', function() {
+    const problemContent = document.getElementById('problem-content');
+    const markdownText = `{{ exercise.problem | safe }}`;
+    if (typeof marked !== 'undefined') {
+        problemContent.innerHTML = marked.parse(markdownText);
+    } else {
+        problemContent.textContent = markdownText;
+    }
+
+    // Syntax highlighting
+    if (typeof hljs !== 'undefined') {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    }
+});
+</script>
+{% endblock %}

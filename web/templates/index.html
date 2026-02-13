@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Interview Prep{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Hero section -->
+    <div class="text-center py-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">📚 Interview Prep System</h1>
+        <p class="text-xl text-gray-600">Your AI-powered learning companion</p>
+
+        {% if stats.days_until_interview > 0 %}
+            <div class="mt-6 inline-block bg-yellow-100 border-2 border-yellow-400 rounded-lg px-6 py-3">
+                <span class="text-2xl font-bold text-yellow-800">⏰ {{ stats.days_until_interview }} days until interview!</span>
+            </div>
+        {% elif stats.days_until_interview == 0 %}
+            <div class="mt-6 inline-block bg-green-100 border-2 border-green-400 rounded-lg px-6 py-3">
+                <span class="text-2xl font-bold text-green-800">🎯 Interview is TODAY! You got this!</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-blue-600">{{ "%.0f"|format(stats.sql_progress) }}%</div>
+            <div class="text-gray-600 mt-2">SQL Progress</div>
+        </div>
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-green-600">{{ "%.0f"|format(stats.python_progress) }}%</div>
+            <div class="text-gray-600 mt-2">Python Progress</div>
+        </div>
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-purple-600">{{ stats.flashcards_due }}</div>
+            <div class="text-gray-600 mt-2">Cards Due</div>
+        </div>
+    </div>
+
+    <!-- Main actions -->
+    <div class="card">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">🎯 Start Studying</h2>
+
+        <div class="space-y-4">
+            <!-- Flashcards -->
+            <a href="/flashcards" class="block">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold">🎴 Flashcards</h3>
+                            <p class="text-purple-100 mt-1">{{ stats.flashcards_due }} cards due for review</p>
+                        </div>
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- SQL Exercises -->
+            <a href="/exercises/sql" class="block">
+                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold">📝 SQL Exercises</h3>
+                            <p class="text-blue-100 mt-1">Practice queries with automated tests</p>
+                        </div>
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Python Exercises -->
+            <a href="/exercises/python" class="block">
+                <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold">🐍 Python Exercises</h3>
+                            <p class="text-green-100 mt-1">Data engineering challenges</p>
+                        </div>
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="/progress" class="card hover:shadow-lg transition-shadow">
+            <h3 class="text-lg font-bold text-gray-800">📊 Progress Dashboard</h3>
+            <p class="text-gray-600 mt-2">View detailed analytics and stats</p>
+            <p class="text-sm text-gray-500 mt-2">Total time: {{ "%.1f"|format(stats.total_time_hours) }} hours</p>
+        </a>
+
+        <a href="/resources" class="card hover:shadow-lg transition-shadow">
+            <h3 class="text-lg font-bold text-gray-800">📚 Resources</h3>
+            <p class="text-gray-600 mt-2">Curated learning materials and links</p>
+            <p class="text-sm text-gray-500 mt-2">100+ vetted resources</p>
+        </a>
+    </div>
+
+    <!-- Cheat sheets -->
+    <div class="card">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">📖 Quick Reference</h2>
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="/cheatsheet/sql" class="flex-1 bg-blue-50 border-2 border-blue-200 rounded-lg p-4 text-center hover:bg-blue-100 transition-colors">
+                <span class="font-semibold text-blue-800">SQL Cheat Sheet</span>
+            </a>
+            <a href="/cheatsheet/python" class="flex-1 bg-green-50 border-2 border-green-200 rounded-lg p-4 text-center hover:bg-green-100 transition-colors">
+                <span class="font-semibold text-green-800">Python Cheat Sheet</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Motivational message -->
+    <div class="card bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-yellow-300">
+        <div class="text-center">
+            <div class="text-4xl mb-4">💪</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Keep Going!</h3>
+            <p class="text-gray-600">Consistent daily practice is the key to success. You're doing great!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ exercise.name }} - Python Exercise{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <div class="mb-2">
+            <a href="/exercises/python" class="text-blue-600 hover:text-blue-800">← Back to Python Exercises</a>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-800">{{ exercise.name }}</h1>
+        <span class="text-gray-600">{{ exercise.category }}</span>
+    </div>
+
+    <div class="card">
+        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto"><code class="language-python">{{ exercise.code }}</code></pre>
+    </div>
+
+    <div class="card bg-green-50 border-2 border-green-200">
+        <div class="flex items-start space-x-3">
+            <div class="text-2xl">💡</div>
+            <div>
+                <h3 class="font-bold text-gray-800 mb-2">How to solve this:</h3>
+                <ol class="text-gray-700 text-sm space-y-1 list-decimal list-inside">
+                    <li>Open this file in your IDE or text editor</li>
+                    <li>Read the docstring and understand the requirements</li>
+                    <li>Implement the function(s)</li>
+                    <li>Run the tests at the bottom of the file</li>
+                    <li>Iterate until all tests pass!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof hljs !== 'undefined') {
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+        });
+    }
+});
+</script>
+{% endblock %}

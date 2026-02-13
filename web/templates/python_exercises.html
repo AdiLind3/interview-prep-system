@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Python Exercises - Interview Prep{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">🐍 Python Exercises</h1>
+        <p class="text-gray-600">Data engineering challenges</p>
+    </div>
+
+    <div class="card">
+        <div class="space-y-3">
+            {% for exercise in exercises %}
+            <a
+                href="/exercises/python/{{ exercise.id }}"
+                class="block border-2 border-gray-200 rounded-lg p-4 hover:border-green-500 hover:bg-green-50 transition-colors"
+            >
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-gray-800">{{ exercise.name }}</h3>
+                        <span class="text-sm text-gray-600">{{ exercise.category }}</span>
+                    </div>
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="/" class="btn-secondary inline-block">← Back to Home</a>
+    </div>
+</div>
+{% endblock %}

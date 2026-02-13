@@ -129,6 +129,35 @@ python progress/analytics.py --report=detailed
 python progress/analytics.py --log-session="sql,45,Completed 5 exercises"
 ```
 
+### 📱 Access from Your Phone (Web Interface)
+
+**NEW!** Study anywhere with the mobile-friendly web interface:
+
+```bash
+# Start the web server
+cd web
+python app.py
+
+# Access from your phone:
+# 1. Make sure phone is on same WiFi as computer
+# 2. Find your computer's IP address
+# 3. Open browser on phone: http://YOUR_IP:5000
+```
+
+**Or deploy to cloud for 24/7 access:**
+- **Render (Free)**: One-click deploy from GitHub
+- **Railway**: Fast deployment with CLI
+- **Local Network**: Access instantly from same WiFi
+
+See [web/README.md](web/README.md) for detailed setup instructions!
+
+**Web Features:**
+- 🎴 Interactive flashcard study
+- 📊 Visual progress dashboard
+- 📝 Browse exercises
+- 📚 View resources and cheat sheets
+- 📱 Mobile-optimized UI
+
 ---
 
 ## 🏗️ System Components
@@ -168,6 +197,14 @@ interview-prep-system/
 ├── 📚 resources/               # Learning resources
 │   ├── links.md               # Curated links
 │   └── tasq_ai_research.md    # Company research
+│
+├── 📱 web/                     # Mobile web interface (NEW!)
+│   ├── app.py                 # Flask application
+│   ├── templates/             # HTML templates
+│   │   ├── flashcards.html   # Interactive study
+│   │   ├── progress.html     # Dashboard
+│   │   └── ...               # Exercise browsers
+│   └── README.md              # Web setup guide
 │
 └── 🛠️  utils/                  # Core utilities
     ├── database.py            # SQLite helper

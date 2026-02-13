@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Interview Prep{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for interactivity -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        /* Custom styles */
+        .card {
+            @apply bg-white rounded-lg shadow-md p-6 mb-4;
+        }
+
+        .btn-primary {
+            @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors;
+        }
+
+        .btn-secondary {
+            @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors;
+        }
+
+        .progress-bar {
+            @apply bg-gray-200 rounded-full h-4 overflow-hidden;
+        }
+
+        .progress-fill {
+            @apply bg-blue-600 h-full transition-all duration-500;
+        }
+
+        /* Make code blocks scrollable on mobile */
+        pre {
+            @apply overflow-x-auto;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Mobile-friendly navigation -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="/" class="text-xl font-bold">🚀 Interview Prep</a>
+
+                <!-- Mobile menu button -->
+                <button
+                    @click="mobileMenuOpen = !mobileMenuOpen"
+                    class="md:hidden"
+                    x-data="{ mobileMenuOpen: false }"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="/" class="hover:text-blue-200 transition-colors">Home</a>
+                    <a href="/flashcards" class="hover:text-blue-200 transition-colors">Flashcards</a>
+                    <a href="/exercises/sql" class="hover:text-blue-200 transition-colors">SQL</a>
+                    <a href="/exercises/python" class="hover:text-blue-200 transition-colors">Python</a>
+                    <a href="/progress" class="hover:text-blue-200 transition-colors">Progress</a>
+                    <a href="/resources" class="hover:text-blue-200 transition-colors">Resources</a>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div
+                x-show="mobileMenuOpen"
+                x-data="{ mobileMenuOpen: false }"
+                class="md:hidden mt-4 space-y-2"
+                x-cloak
+            >
+                <a href="/" class="block py-2 hover:text-blue-200">Home</a>
+                <a href="/flashcards" class="block py-2 hover:text-blue-200">Flashcards</a>
+                <a href="/exercises/sql" class="block py-2 hover:text-blue-200">SQL Exercises</a>
+                <a href="/exercises/python" class="block py-2 hover:text-blue-200">Python Exercises</a>
+                <a href="/progress" class="block py-2 hover:text-blue-200">Progress</a>
+                <a href="/resources" class="block py-2 hover:text-blue-200">Resources</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">Built with ❤️ and Claude Code | Interview Prep System 2026</p>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
