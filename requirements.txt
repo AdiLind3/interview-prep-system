@@ -1,33 +1,33 @@
 # Core Data Science & Engineering
-pandas==2.1.0
-numpy==1.24.0
-SQLAlchemy==2.0.0
+pandas>=2.2.2
+numpy>=1.26.0
+SQLAlchemy>=2.0.0
 
 # Testing & Quality
-pytest==7.4.0
-pytest-cov==4.1.0
-pytest-timeout==2.1.0
-black==23.7.0
-flake8==6.1.0
-mypy==1.5.0
-radon==6.0.1
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-timeout>=2.1.0
+black>=23.7.0
+flake8>=6.1.0
+mypy>=1.5.0
+radon>=6.0.1
 
 # CLI & UI
-rich==13.5.0
-click==8.1.7
-prompt-toolkit==3.0.39
-tabulate==0.9.0
+rich>=13.5.0
+click>=8.1.7
+prompt-toolkit>=3.0.39
+tabulate>=0.9.0
 
 # Data Generation & Web
-faker==19.3.0
-requests==2.31.0
-beautifulsoup4==4.12.0
-Flask==3.0.0
+faker>=19.3.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+Flask>=3.0.0
 
 # Production Server
-gunicorn==21.2.0
+gunicorn>=21.2.0
 
 # Utilities
-python-dateutil==2.8.2
-pytz==2023.3
-pyyaml==6.0.1
+python-dateutil>=2.8.2
+pytz>=2023.3
+pyyaml>=6.0.1
