@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 import random
+import os
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -425,5 +426,7 @@ def cheatsheet(topic):
 # ============ Run App ============
 
 if __name__ == '__main__':
-    # Run on 0.0.0.0 so it's accessible from phone on local network
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Use PORT environment variable for Render deployment, default to 5000 for local development
+    port = int(os.environ.get("PORT", 5000))
+    # Set debug=True for local development, but it will be ignored in production
+    app.run(host='0.0.0.0', port=port)
