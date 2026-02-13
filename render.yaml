@@ -2,12 +2,14 @@ services:
   - type: web
     name: interview-prep-system
     env: python
-    region: oregon
+    region: Frankfurt
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn web.app:app --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.13.0
+        value: 3.13.1
       - key: FLASK_APP
         value: web.app
+      - key: C_INCLUDE_PATH
+        value: /usr/include/python3.13
